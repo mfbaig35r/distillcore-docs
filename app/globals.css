@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@source "../components/**/*.{js,ts,jsx,tsx}";
+@source "../lib/**/*.{js,ts,jsx,tsx}";
+@source "./**/*.{js,ts,jsx,tsx,mdx}";
+
+/* Force dark mode on all devices */
+:root {
+  color-scheme: dark;
+}
+
+/* Override light mode to use dark theme */
+html, html.light, html:not(.dark) {
+  --nextra-bg: 17 17 17;
+  --nextra-content-width: 90rem;
+  color-scheme: dark;
+  background-color: rgb(17, 17, 17);
+  color: rgb(229, 229, 229);
+}
+
+/* Prose table styling */
+.prose table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid rgb(64, 64, 64);
+  padding: 0.375rem 0.75rem;
+  text-align: left;
+}
+
+.prose th {
+  background-color: rgb(38, 38, 38);
+  font-weight: 600;
+}
+
+.prose tr:nth-child(even) {
+  background-color: rgb(23, 23, 23);
+}
+
+/* Hide Nextra navbar border (marketing header handles top chrome) */
+.nextra-navbar-blur {
+  border-bottom: none !important;
+}
+
+/* Ensure Nextra components use dark colors */
+html.light .nextra-nav-container,
+html:not(.dark) .nextra-nav-container {
+  background-color: rgb(17, 17, 17);
+}
+
+html.light .nextra-sidebar-container,
+html:not(.dark) .nextra-sidebar-container {
+  background-color: rgb(17, 17, 17);
+}
+
+/* DAG edge particle flow animation */
+@keyframes dagParticleFlow {
+  0% {
+    left: -2px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 2px);
+    opacity: 0;
+  }
+}
