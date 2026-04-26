@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Section } from './section'
 import {
   FileText,
   Binary,
@@ -58,7 +57,8 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <Section className="border-t border-neutral-800">
+    <section className="py-20 md:py-28 border-t border-neutral-800">
+      <div className="max-w-5xl mx-auto px-6">
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -93,6 +93,7 @@ export function FeaturesSection() {
           </motion.div>
         ))}
       </div>
-    </Section>
+      </div>
+    </section>
   )
 }
