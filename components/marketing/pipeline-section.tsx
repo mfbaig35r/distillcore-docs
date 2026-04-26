@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Section } from './section'
 import {
   FileText,
   Tag,
@@ -52,7 +51,8 @@ const stages = [
 
 export function PipelineSection() {
   return (
-    <Section className="border-t border-neutral-800">
+    <section className="py-20 md:py-28 px-6 border-t border-neutral-800">
+      <div className="max-w-5xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -69,7 +69,7 @@ export function PipelineSection() {
         </p>
       </motion.div>
 
-      <div className="grid gap-4 max-w-3xl">
+      <div className="grid gap-4">
         {stages.map((stage, i) => (
           <motion.div
             key={stage.name}
@@ -92,6 +92,7 @@ export function PipelineSection() {
           </motion.div>
         ))}
       </div>
-    </Section>
+      </div>
+    </section>
   )
 }
