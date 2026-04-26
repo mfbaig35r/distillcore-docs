@@ -1,0 +1,47 @@
+# process_text()
+
+Process raw text through the full 7-stage pipeline.
+
+## Signature
+
+```python
+def process_text(
+    text: str,
+    *,
+    config: DistillConfig | None = None,
+    filename: str | None = None,
+    embed: Callable[[list[str]], list[list[float]]] | None = None,
+) -> ProcessingResult:
+```
+
+## Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `text` | `str` | required | Raw text to process |
+| `config` | `DistillConfig` | `None` | Pipeline configuration |
+| `filename` | `str` | `None` | Virtual filename for metadata |
+| `embed` | `Callable` | `None` | Embedding function |
+
+## Returns
+
+`ProcessingResult` — same structure as `process_document()`.
+
+## Examples
+
+```python
+from distillcore import process_text
+
+result = process_text(
+    "The court hereby orders that the motion to dismiss is denied...",
+    filename="order.txt",
+)
+```
+
+## Async Version
+
+```python
+from distillcore import process_text_async
+
+result = await process_text_async("The court hereby orders...")
+```

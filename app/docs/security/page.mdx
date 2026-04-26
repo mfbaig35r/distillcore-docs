@@ -1,0 +1,66 @@
+# Security
+
+distillcore includes multiple security layers for production deployments.
+
+## Path Traversal Prevention
+
+Restrict which directories the pipeline can access:
+
+```python
+from distillcore import DistillConfig
+
+config = DistillConfig(
+    allowed_dirs=["/data/uploads", "/tmp/processing"],
+)
+
+# This works
+result = process_document("/data/uploads/report.pdf", config=config)
+
+# This raises ValueError
+result = process_document("/etc/passwd", config=config)
+```
+
+When `allowed_dirs` is `None` (default), all paths are allowed.
+
+## Config Validation
+
+```python
+config = DistillConfig()
+warnings = config.validate()
+# ['No OpenAI API key configured']
+```
+
+`validate()` checks for common misconfigurations and returns a list of warning strings.
+
+## Tenant Isolation
+
+The `Store` class supports tenant isolation via the `tenant_id` parameter:
+
+```python
+from distillcore.storage import Store
+
+store = Store()
+
+# Save for different tenants
+store.save(result_a, tenant_id="org-a")
+store.save(result_b, tenant_id="org-b")
+
+# Queries are scoped
+docs = store.list_documents(tenant_id="org-a")
+# Only returns org-a documents
+```
+
+Tenant IDs are enforced at the query level — there is no way to accidentally cross tenant boundaries.
+
+## Thread Safety
+
+All `Store` operations use an internal lock, making them safe for concurrent access from multiple threads.
+
+## LLM Prompt Hardening
+
+Domain presets are designed to minimize prompt injection risk:
+- Classification prompts constrain output to structured fields
+- Structuring prompts use explicit section type enums
+- Enrichment prompts limit output to topic/concept/relevance
+
+Custom `DomainConfig` objects should follow the same pattern of constraining LLM outputs to expected schemas.

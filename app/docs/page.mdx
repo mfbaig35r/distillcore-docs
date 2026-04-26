@@ -1,0 +1,52 @@
+# Introduction
+
+**distillcore** is a Python library for intelligent document processing. It provides a 7-stage pipeline that takes raw files and produces structured, chunked, enriched, and embedded documents ready for retrieval and analysis.
+
+**distillcore-agents** is a companion library that adds an autonomous 4-agent orchestration layer on top of the pipeline, handling triage, processing, quality assurance, and research.
+
+## The Pipeline
+
+Every document flows through seven stages:
+
+1. **Extract** — Pull text from PDF, DOCX, HTML, TXT, or Markdown
+2. **Classify** — Identify document type, title, and metadata via LLM
+3. **Structure** — Parse into hierarchical sections
+4. **Chunk** — Split into semantic chunks with overlap
+5. **Enrich** — Add topics, key concepts, and relevance scores
+6. **Embed** — Generate vector embeddings
+7. **Validate** — Verify coverage at each stage boundary
+
+## The Agent Layer
+
+Four specialized agents work together:
+
+| Agent | Role |
+|-------|------|
+| **Triage** | Assesses documents, selects preset and configuration |
+| **Processing** | Executes the distillcore pipeline with triage config |
+| **QA** | Validates coverage thresholds and chunk quality |
+| **Research** | Searches stored documents, synthesizes answers with citations |
+
+## Quick Example
+
+```python
+from distillcore import process_document
+
+result = process_document("report.pdf")
+print(result.document.document_type)
+print(f"{len(result.chunks)} chunks")
+```
+
+## Installation
+
+```bash
+pip install distillcore
+pip install distillcore-agents  # optional agent layer
+```
+
+## Next Steps
+
+- [Getting Started](/docs/getting-started) — Install and run your first pipeline
+- [Configuration](/docs/configuration) — Customize pipeline behavior
+- [API Reference](/docs/api) — Full function signatures
+- [Agent Overview](/docs/agents) — Autonomous document processing

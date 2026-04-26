@@ -1,0 +1,50 @@
+# extract()
+
+Extract text from a file without running the full pipeline.
+
+## Signature
+
+```python
+def extract(
+    source: str | Path,
+    format: str | None = None,
+    config: DistillConfig | None = None,
+) -> ExtractionResult:
+```
+
+## Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `source` | `str \| Path` | required | File path to extract from |
+| `format` | `str` | `None` | Override format detection |
+| `config` | `DistillConfig` | `None` | Configuration (for `allowed_dirs` validation) |
+
+## Returns
+
+```python
+class ExtractionResult:
+    full_text: str                  # complete extracted text
+    pages_text: list[PageText]      # text broken down by page
+    page_count: int                 # number of pages
+```
+
+## Examples
+
+```python
+from distillcore import extract
+
+result = extract("report.pdf")
+print(result.full_text[:200])
+print(f"{result.page_count} pages")
+```
+
+## Extractor Registry
+
+```python
+from distillcore import register_extractor
+
+register_extractor(MyCustomExtractor())
+```
+
+See [Extractors](/docs/extractors) for details on writing custom extractors.

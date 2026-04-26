@@ -1,7 +1,15 @@
+import { Hero } from '@/components/marketing/hero'
+import { PipelineSection } from '@/components/marketing/pipeline-section'
+import { FeaturesSection } from '@/components/marketing/features-section'
+import { CTASection } from '@/components/marketing/cta-section'
+
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
-      <h1 className="text-3xl font-bold text-white">distillcore</h1>
-    </div>
+    <>
+      <Hero />
+      <PipelineSection />
+      <FeaturesSection />
+      <CTASection />
+    </>
   )
 }

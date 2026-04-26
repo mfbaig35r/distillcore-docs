@@ -1,0 +1,37 @@
+# Processing Agent
+
+The Processing agent executes the distillcore pipeline using the configuration recommended by the Triage agent.
+
+## Tools
+
+| Tool | API | Description |
+|------|-----|-------------|
+| `process_document` | `process_document_async()` | Run full 7-stage pipeline |
+| `save_result` | `Store.save()` | Persist result to storage |
+
+## Output: ProcessingDecision
+
+```python
+class ProcessingDecision(BaseModel):
+    source_filename: str
+    document_type: str
+    document_title: str
+    page_count: int
+    section_count: int
+    chunk_count: int
+    structuring_coverage: float
+    chunking_coverage: float
+    end_to_end_coverage: float
+    validation_passed: bool
+    warnings: list[str]
+    document_id: str
+    reasoning: str
+```
+
+## How It Works
+
+1. Receives the `TriageDecision` as context
+2. Builds a `DistillConfig` from triage recommendations (preset, chunk size, OCR, etc.)
+3. Calls `process_document` with the configured pipeline
+4. Calls `save_result` to persist the processed document
+5. Returns coverage metrics and document metadata

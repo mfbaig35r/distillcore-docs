@@ -1,0 +1,213 @@
+[
+  {
+    "chunk_index": 0,
+    "text": "Fact Sheet: Proposed Rule to Implement the GENIUS Act\u2019s Anti-Money Laundering Obligations and Sanctions Compliance Program Requirements\n\nFact Sheet: Proposed Rule to Implement the GENIUS Act\u2019s Anti-Money Laundering Obligations and Sanctions Compliance Program Requirements",
+    "token_estimate": 68,
+    "section_type": "title",
+    "section_heading": "Fact Sheet: Proposed Rule to Implement the GENIUS Act\u2019s Anti-Money Laundering Obligations and Sanctions Compliance Program Requirements",
+    "topic": "Document Title and Heading",
+    "key_concepts": [
+      "GENIUS Act",
+      "Anti-Money Laundering",
+      "Sanctions Compliance",
+      "Proposed Rule"
+    ],
+    "relevance": "low"
+  },
+  {
+    "chunk_index": 1,
+    "text": "The U.S. Department of the Treasury\u2019s Financial Crimes Enforcement Network (FinCEN) and the Office of Foreign Assets Control (OFAC) are issuing a joint proposed rule that would implement provisions of the Guiding and Establishing National Innovation for U.S. Stablecoins Act (GENIUS Act). The GENIUS Act provides a framework for the federal regulation of payment stablecoins. It directs that permitted payment stablecoin issuers (PPSIs) be treated as financial institutions for purposes of the Bank Secrecy Act (BSA) and be subject to all Federal laws applicable to financial institutions located in the United States relating to economic sanctions, prevention of money laundering, customer identification, and due diligence. It tasks the Secretary of the Treasury with implementing these provisions by issuing regulations, tailored to the size and complexity of PPSIs. The proposed rule implements the GENIUS Act\u2019s anti-money laundering and sanctions program provisions. By implementing this framework, Treasury\u2019s proposal seeks to mitigate potential illicit finance risks through an appropriately tailored regime that protects the U.S. financial system and national security interests. As directed by the GENIUS Act, among the obligations included in the proposal are the requirement for PPSIs to: \u2022 establish and maintain an anti-money laundering and countering the financing of terrorism (AML/CFT) program; \u2022 report suspicious activity; \u2022 have the technical capabilities, policies, and procedures to block, freeze, and reject specific or impermissible transactions that violate Federal or State laws, rules, or regulations; \u2022 have the technical capabilities to comply, and do comply, with the terms of any lawful order; and \u2022 maintain an effective sanctions compliance program. The following is an overview of the proposed rule\u2019s key elements. Please refer to the full notice of proposed rulemaking for details.",
+    "token_estimate": 478,
+    "section_type": "body",
+    "section_heading": null,
+    "topic": "Introduction to Proposed Rule",
+    "key_concepts": [
+      "GENIUS Act",
+      "FinCEN",
+      "OFAC",
+      "Payment Stablecoins",
+      "Bank Secrecy Act",
+      "Anti-Money Laundering",
+      "Sanctions Compliance"
+    ],
+    "relevance": "high"
+  },
+  {
+    "chunk_index": 2,
+    "text": "Overview of Proposed Anti-Money Laundering Obligations\n\nThe proposed rule would implement the GENIUS Act\u2019s requirement that PPSIs be treated as financial institutions under the BSA and applies anti-money laundering obligations specified in the GENIUS Act. In addition to the requirements described below, the proposed rule would amend four existing definitions and add nine new definitions to 31 CFR part 1010.",
+    "token_estimate": 102,
+    "section_type": "header",
+    "section_heading": "Overview of Proposed Anti-Money Laundering Obligations",
+    "topic": "Overview of AML Obligations",
+    "key_concepts": [
+      "Anti-Money Laundering",
+      "GENIUS Act",
+      "Financial Institutions",
+      "BSA",
+      "Definitions"
+    ],
+    "relevance": "medium"
+  },
+  {
+    "chunk_index": 3,
+    "text": "Overview of Proposed Anti-Money Laundering Obligations > AML/CFT Program Requirement\n\nThe proposed rule would require PPSIs to establish and maintain AML/CFT programs. The proposed AML/CFT program for PPSIs largely mirrors the AML/CFT program obligation FinCEN recently proposed for the 11 types of existing financial institutions. Under the proposal, AML/CFT programs should be appropriately risk-based, with PPSIs directing more resources toward higher-risk customers and activities, rather than toward lower-risk customers and activities. The proposal reflects FinCEN\u2019s view that compliance obligations and expectations should be focused on effectiveness and that financial institutions are best positioned to identify and evaluate their money laundering, terrorist financing, and illicit finance risks. \u2022 Internal Policies, Procedures, and Controls. The proposed rule would require a PPSI\u2019s internal policies, procedures, and controls to be reasonably designed to ensure compliance with the Bank Secrecy Act and 31 CFR chapter X. The internal policies, procedures, and controls would need to include: o Risk Assessment Processes. A PPSI would need to identify, assess, and document the PPSI\u2019s money laundering, the financing of terrorism, and other illicit finance activity risks through its risk assessment processes that: (1) evaluate the risks of the PPSI\u2019s business activities; (2) review and, as appropriate, incorporate the AML/CFT Priorities; and (3) are updated promptly upon any change that the PPSI knows or has reason to know significantly changes the PPSI\u2019s risks. o Mitigate Money Laundering/Terrorist Financing Risks. A PPSI\u2019s efforts to mitigate its risks would involve directing more attention and resources toward higher-risk customers and activities, consistent with the PPSI\u2019s risk assessment processes. o Ongoing Customer Due Diligence. A PPSI would be required to conduct ongoing customer due diligence to understand the nature and purpose of customer relationships to develop a customer risk profile; and conduct ongoing monitoring to identify and report suspicious transactions and, on a risk basis, to maintain and update customer information, including beneficial owners of legal entity customers. \u2022 Independent Testing. The proposed rule would require a PPSI to establish independent AML/CFT program testing. Independent testing should be based on objective criteria designed to assess whether a financial institution has established and implemented an effective AML/CFT program and allocated resources consistent with its risk assessment processes. \u2022 AML/CFT Officer. The proposed rule would require a PPSI to designate an individual responsible for establishing and implementing the AML/CFT program and coordinating and monitoring day-to-day compliance. The officer must be located in the United States and cannot be convicted of a felony offense involving insider trading, embezzlement, cybercrime, money laundering, financing of terrorism, or financial fraud. \u2022 Ongoing Employee Training Program. The proposed rule would require a PPSI to establish an ongoing employee training program. \u2022 Written AML/CFT Program and Approval. The proposed rule would require that a PPSI\u2019s AML/CFT program be written, and that a PPSI, upon request, make available a copy of its written AML/CFT program to FinCEN or its designee. The rule would also require that the AML/CFT program be approved by the PPSI\u2019s board of directors or an equivalent governing body within the PPSI, or appropriate senior management. \u2022 Supervision and Enforcement of AML/CFT Programs. The proposal also outlines a potential FinCEN enforcement and supervision policy for AML/CFT programs. Specifically, if a PPSI has established its AML/CFT program under the proposed rule, FinCEN generally would not take an enforcement action, and FinCEN, or other agencies acting on its behalf, generally would not take major supervisory action, unless the PPSI has a significant or systemic failure to maintain that program. The proposed rule would ensure FinCEN plays a central role in AML/CFT supervision, including through the introduction of a notice and consultation framework between the primary Federal payment stablecoin regulators and FinCEN with respect to significant AML/CFT supervisory actions.",
+    "token_estimate": 1071,
+    "section_type": "body",
+    "section_heading": "Overview of Proposed Anti-Money Laundering Obligations > AML/CFT Program Requirement",
+    "topic": "AML/CFT Program Requirement",
+    "key_concepts": [
+      "AML/CFT Programs",
+      "Risk-Based Approach",
+      "Internal Policies",
+      "FinCEN"
+    ],
+    "relevance": "medium"
+  },
+  {
+    "chunk_index": 4,
+    "text": "Overview of Proposed Anti-Money Laundering Obligations > Additional Technical Capabilities, Policies, and Procedures\n\nThe proposed rule would require PPSIs to have the technical capabilities, policies, and procedures to block, freeze, and reject specific or impermissible transactions that violate Federal or State laws, rules, or regulations as provided in the GENIUS Act. It would also require PPSIs to have the technical capabilities to comply, and to in fact comply, with the terms of any lawful order. Both requirements would apply to PPSI\u2019s primary and secondary market activity.",
+    "token_estimate": 146,
+    "section_type": "body",
+    "section_heading": "Overview of Proposed Anti-Money Laundering Obligations > Additional Technical Capabilities, Policies, and Procedures",
+    "topic": "Technical Capabilities and Procedures",
+    "key_concepts": [
+      "Technical Capabilities",
+      "Transaction Blocking",
+      "Compliance",
+      "Federal and State Laws"
+    ],
+    "relevance": "medium"
+  },
+  {
+    "chunk_index": 5,
+    "text": "Overview of Proposed Anti-Money Laundering Obligations > Suspicious Activity Reports\n\nThe proposed rule would require PPSIs to file suspicious activity reports (SARs) for any suspicious transaction relevant to a possible violation of law or regulation. The proposal would not impose a secondary market SAR reporting obligation.",
+    "token_estimate": 81,
+    "section_type": "body",
+    "section_heading": "Overview of Proposed Anti-Money Laundering Obligations > Suspicious Activity Reports",
+    "topic": "Suspicious Activity Reports",
+    "key_concepts": [
+      "Suspicious Activity Reports",
+      "SARs",
+      "Regulatory Compliance"
+    ],
+    "relevance": "medium"
+  },
+  {
+    "chunk_index": 6,
+    "text": "Overview of Proposed Anti-Money Laundering Obligations > Recordkeeping Requirements\n\nThe proposed rule would require PPSIs to create and retain certain records. The proposal would require PPSIs to comply with the Recordkeeping Rule, obligating PPSIs to collect and retain records for funds transfers and transmittals of funds in amounts of $3,000 or more. The proposal also would require PPSIs to comply with the Travel Rule, thereby obliging PPSIs to transmit information on certain funds transfers and transmittals of funds to other financial institutions participating in the transfer or transmittal.",
+    "token_estimate": 150,
+    "section_type": "body",
+    "section_heading": "Overview of Proposed Anti-Money Laundering Obligations > Recordkeeping Requirements",
+    "topic": "Recordkeeping Requirements",
+    "key_concepts": [
+      "Recordkeeping",
+      "Funds Transfers",
+      "Travel Rule",
+      "Compliance"
+    ],
+    "relevance": "medium"
+  },
+  {
+    "chunk_index": 7,
+    "text": "Overview of Proposed Anti-Money Laundering Obligations > Information Sharing\n\nThe proposed rule would apply certain information sharing provisions to PPSIs. In particular, in furtherance of section 314(a), a PPSI would be required, upon receipt of a request from FinCEN, to search its records to determine whether it maintains or has maintained any accounts for or has engaged in any transactions with individuals or entities identified in the request. PPSIs would also be able to participate in voluntarily information exchanges through FinCEN\u2019s section 314(b) information sharing program.",
+    "token_estimate": 147,
+    "section_type": "body",
+    "section_heading": "Overview of Proposed Anti-Money Laundering Obligations > Information Sharing",
+    "topic": "Information Sharing Provisions",
+    "key_concepts": [
+      "Information Sharing",
+      "FinCEN",
+      "Section 314(a)",
+      "Section 314(b)"
+    ],
+    "relevance": "medium"
+  },
+  {
+    "chunk_index": 8,
+    "text": "Overview of Proposed Anti-Money Laundering Obligations > Special Standards of Diligence; Prohibitions; and Special Measures\n\nThe proposed rule would require a PPSI to establish a due diligence program\u2014including, where necessary, enhanced due diligence\u2014reasonably designed to enable the PPSI to detect and report any known or suspected money laundering involving correspondent and private banking accounts. It would also require a PPSI to comply with the special measures that FinCEN is authorized to impose to guard the U.S. financial system when foreign financial institutions or transactions are of primary money laundering concern.",
+    "token_estimate": 158,
+    "section_type": "body",
+    "section_heading": "Overview of Proposed Anti-Money Laundering Obligations > Special Standards of Diligence; Prohibitions; and Special Measures",
+    "topic": "Special Standards and Measures",
+    "key_concepts": [
+      "Due Diligence",
+      "Money Laundering",
+      "Special Measures",
+      "FinCEN"
+    ],
+    "relevance": "medium"
+  },
+  {
+    "chunk_index": 9,
+    "text": "Overview of Proposed Sanctions Compliance Program Requirements\n\nThe proposed rule would require PPSIs to have an effective sanctions compliance program.",
+    "token_estimate": 38,
+    "section_type": "header",
+    "section_heading": "Overview of Proposed Sanctions Compliance Program Requirements",
+    "topic": "Sanctions Compliance Program Overview",
+    "key_concepts": [
+      "Sanctions Compliance",
+      "PPSIs",
+      "Regulatory Requirements"
+    ],
+    "relevance": "medium"
+  },
+  {
+    "chunk_index": 10,
+    "text": "Overview of Proposed Sanctions Compliance Program Requirements > Effective Sanctions Compliance Program\n\nThe proposed rule would require PPSIs to adopt a sanctions compliance program including the five key elements described below. \u2022 Senior Management and Organizational Commitment. The proposed rule would require a PPSI\u2019s senior management to review and approve a PPSI\u2019s sanctions compliance program and to support the sanctions compliance program\u2019s effective implementation, including by ensuring the sanctions compliance program, at a minimum: (i) applies to all payment stablecoin-related activity; (ii) has sufficient resources, including necessary investments in human capital, expertise, and information technology, to carry out the requirement that PPSIs conduct risk assessments, maintain internal controls, conduct testing and auditing, and maintain a risk-based sanctions compliance training program; (iii) is fully integrated into the PPSI\u2019s ongoing stablecoin-related operations; (iv) routinely provides risk updates, including test results, to senior management and other appropriate personnel within the PPSI; and (v) provides sufficient authority and autonomy to the compliance function to manage effectively U.S. sanctions risk for the entire PPSI. \u2022 Risk Assessments. The proposed rule would require a PPSI to conduct sanctions-related risk assessments by: (i) conducting holistic assessments of U.S. sanctions risks at appropriate intervals; (ii) using the risk assessments to inform the PPSI\u2019s operation of its sanctions compliance program, including revising internal controls and training as appropriate; and (iii) revising risk assessments as appropriate to account for any identified U.S. sanctions violations or deficiencies, new products, services, mergers, or acquisitions, and any other factors that may affect a PPSI\u2019s risk profile. \u2022 Internal Controls. The proposed rule would require PPSIs to establish and maintain a system of risk-based internal controls\u2014including technical capabilities and written policies and procedures\u2014applicable to all payment stablecoin-related activity, whether on the primary or secondary market, that identifies, blocks, and/or rejects transactions that may violate or would violate U.S. sanctions and retains relevant records in accordance with OFAC regulations. \u2022 Testing and Auditing. The proposed rule would require PPSIs to establish and maintain an independent testing or audit function, accountable to senior management, with sufficient resources, expertise, and authority to identify U.S. sanctions compliance-related weaknesses and deficiencies. \u2022 Training. The proposed rule would require PPSIs to establish and maintain a risk-based sanctions compliance training program that is: (i) performed at least annually and with a frequency appropriate to the PPSI\u2019s risk assessments and risk profile; (ii) provided to all relevant personnel and stakeholders; (iii) appropriately tailored to each trainee\u2019s role and responsibilities; (iv) modified to reflect risk assessments findings and identified deficiencies in the sanctions compliance program, including testing and audit findings; and (v) designed to include easily accessible resources and materials for all relevant personnel and stakeholders.",
+    "token_estimate": 816,
+    "section_type": "body",
+    "section_heading": "Overview of Proposed Sanctions Compliance Program Requirements > Effective Sanctions Compliance Program",
+    "topic": "Effective Sanctions Compliance Program",
+    "key_concepts": [
+      "Sanctions Compliance",
+      "Risk Assessments",
+      "Senior Management",
+      "Internal Controls"
+    ],
+    "relevance": "medium"
+  },
+  {
+    "chunk_index": 11,
+    "text": "Overview of Proposed Sanctions Compliance Program Requirements > Recordkeeping and Reporting\n\nThe proposed rule would require PPSIs to comply with standard recordkeeping and reporting requirements found in 31 CFR part 501. The proposed rule would also require PPSIs to provide upon request to OFAC any and all certifications submitted to the PPSI\u2019s primary Federal payment stablecoin regulator or State payment stablecoin regulator certifying, pursuant to the GENIUS Act, that the PPSI has implemented an effective sanctions compliance program.",
+    "token_estimate": 136,
+    "section_type": "body",
+    "section_heading": "Overview of Proposed Sanctions Compliance Program Requirements > Recordkeeping and Reporting",
+    "topic": "Sanctions Recordkeeping and Reporting",
+    "key_concepts": [
+      "Recordkeeping",
+      "Reporting Requirements",
+      "OFAC",
+      "Compliance"
+    ],
+    "relevance": "medium"
+  },
+  {
+    "chunk_index": 12,
+    "text": "Next Steps\n\nFinCEN and OFAC welcome public comment on all aspects of the proposed rule. Comments must be received by June 9th and be submitted in one of the following two ways (please choose only one of the ways listed): \u2022 Electronically at https://www.regulations.gov. Follow the \u201cSubmit a comment\u201d instructions. \u2022 You may mail written comments to the following address: Regulatory and Strategic Affairs Division, Financial Crimes Enforcement Network, P.O. Box 39, Vienna, VA 22183. Mailed comments must be received by the close of the comment period. Do not include any personally identifiable information (such as name, address, or other contact information) or confidential business information that you do not want publicly disclosed. All comments are public records; they are publicly displayed exactly as received, and will not be deleted, modified, or redacted. Comments may be submitted anonymously. Follow the search instructions on https://www.regulations.gov to view public comments. In accordance with 5 U.S.C. 553(b)(4), a summary of this rule may be found at www.regulations.gov under Docket FINCEN-2026-0100.",
+    "token_estimate": 281,
+    "section_type": "conclusion",
+    "section_heading": "Next Steps",
+    "topic": "Public Comment Process",
+    "key_concepts": [
+      "Public Comment",
+      "FinCEN",
+      "OFAC",
+      "Regulations.gov"
+    ],
+    "relevance": "low"
+  },
+  {
+    "chunk_index": 13,
+    "text": "For Further Information\n\nPlease send questions or comments regarding the contents of this fact sheet to the FinCEN Regulatory Support Section at www.fincen.gov/contact.",
+    "token_estimate": 42,
+    "section_type": "general",
+    "section_heading": "For Further Information",
+    "topic": "Contact Information",
+    "key_concepts": [
+      "FinCEN",
+      "Contact Information",
+      "Regulatory Support"
+    ],
+    "relevance": "low"
+  }
+]

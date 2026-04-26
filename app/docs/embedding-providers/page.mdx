@@ -1,0 +1,99 @@
+# Embedding Providers
+
+distillcore supports four embedding providers. Each returns a callable with signature `(list[str]) -> list[list[float]]`.
+
+## OpenAI
+
+```python
+from distillcore.embedding import openai_embedder
+
+embed = openai_embedder(
+    model="text-embedding-3-small",  # default, 1536 dims
+    api_key="sk-...",                 # or OPENAI_API_KEY env var
+)
+
+# Alternative: higher quality
+embed = openai_embedder(model="text-embedding-3-large")  # 3072 dims
+```
+
+## Ollama
+
+Local embeddings via Ollama. No API key needed.
+
+```python
+from distillcore.embedding import ollama_embedder
+
+embed = ollama_embedder(
+    model="nomic-embed-text",         # default, 768 dims
+    base_url="http://localhost:11434", # default
+)
+
+# Alternatives
+embed = ollama_embedder(model="mxbai-embed-large")  # 1024 dims
+embed = ollama_embedder(model="all-minilm")          # 384 dims
+```
+
+Uses stdlib `urllib` — no additional dependencies.
+
+## Local (sentence-transformers)
+
+```bash
+pip install distillcore[local]
+```
+
+```python
+from distillcore.embedding import local_embedder
+
+embed = local_embedder(
+    model="all-MiniLM-L6-v2",  # default, 384 dims
+    device=None,                # auto-detect (cuda/mps/cpu)
+)
+
+# Higher quality
+embed = local_embedder(model="all-mpnet-base-v2")  # 768 dims
+```
+
+## Cohere
+
+```bash
+pip install distillcore[cohere]
+```
+
+```python
+from distillcore.embedding import cohere_embedder
+
+embed = cohere_embedder(
+    model="embed-english-v3.0",       # default
+    api_key="...",                     # or CO_API_KEY env var
+    input_type="search_document",     # for indexing
+)
+
+# For queries
+query_embed = cohere_embedder(input_type="search_query")
+```
+
+## Using with the Pipeline
+
+Pass any embedder to `process_document`:
+
+```python
+from distillcore import process_document
+from distillcore.embedding import openai_embedder
+
+result = process_document(
+    "report.pdf",
+    embed=openai_embedder(api_key="sk-..."),
+)
+```
+
+## Custom Embedding Function
+
+Any callable matching the protocol works:
+
+```python
+def my_embedder(texts: list[str]) -> list[list[float]]:
+    # Your embedding logic here
+    return [[0.1, 0.2, ...] for _ in texts]
+
+result = process_document("report.pdf", embed=my_embedder)
+```

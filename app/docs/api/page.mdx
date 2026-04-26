@@ -1,0 +1,43 @@
+# API Reference
+
+Complete API reference for the distillcore library.
+
+## Entry Points
+
+| Function | Description |
+|----------|-------------|
+| [`process_document()`](/docs/api/process-document) | Process a file through the full pipeline |
+| [`process_text()`](/docs/api/process-text) | Process raw text through the full pipeline |
+| [`extract()`](/docs/api/extract) | Extract text from a file |
+| [`Store`](/docs/api/store) | SQLite storage with search |
+
+## Async Variants
+
+| Function | Description |
+|----------|-------------|
+| `process_document_async()` | Async version of process_document |
+| `process_text_async()` | Async version of process_text |
+| `process_batch()` | Process multiple files concurrently |
+| `process_batch_sync()` | Synchronous batch processing |
+
+See [Async & Batch](/docs/async-batch) for details.
+
+## Configuration
+
+| Class | Description |
+|-------|-------------|
+| `DistillConfig` | Top-level configuration |
+| `ChunkConfig` | Chunk size and overlap |
+| `EmbeddingConfig` | Embedding model selection |
+| `DomainConfig` | Domain-specific LLM prompts |
+
+See [Configuration](/docs/configuration) for details.
+
+## Utilities
+
+| Function | Description |
+|----------|-------------|
+| `load_preset(name)` | Load a domain preset |
+| `list_presets()` | List available presets |
+| `register_extractor(ext)` | Register a custom extractor |
+| `compute_coverage(original, derived)` | Word-level coverage metric |

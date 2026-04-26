@@ -1,0 +1,82 @@
+# Store
+
+SQLite-backed document storage with cosine similarity search and tenant isolation.
+
+## Constructor
+
+```python
+from distillcore.storage import Store
+
+store = Store(path="~/.distillcore/store.db")
+```
+
+## Methods
+
+### save(result, tenant_id=None) → str
+
+Save a `ProcessingResult`. Returns the document ID.
+
+```python
+doc_id = store.save(result)
+doc_id = store.save(result, tenant_id="org-123")
+```
+
+### get_document(document_id, tenant_id=None) → dict | None
+
+Retrieve document metadata by ID.
+
+```python
+doc = store.get_document("abc-123")
+```
+
+### list_documents(document_type=None, limit=50, tenant_id=None) → list[dict]
+
+List documents with optional filtering.
+
+```python
+docs = store.list_documents(document_type="motion", limit=10)
+```
+
+### get_chunks(document_id, tenant_id=None) → list[dict]
+
+Get all chunks for a document, ordered by `chunk_index`.
+
+```python
+chunks = store.get_chunks("abc-123")
+```
+
+### search(query_embedding, top_k=10, document_type=None, document_id=None, tenant_id=None) → list[dict]
+
+Cosine similarity search over chunk embeddings. Returns results with `score` field.
+
+```python
+results = store.search(embedding, top_k=5)
+for r in results:
+    print(f"{r['score']:.3f}: {r['text'][:80]}")
+```
+
+### delete_document(document_id, tenant_id=None) → bool
+
+Delete a document and all its chunks. Returns `True` if found.
+
+```python
+store.delete_document("abc-123")
+```
+
+### stats() → dict
+
+Aggregate statistics.
+
+```python
+stats = store.stats()
+# {"documents": 42, "chunks": 1200, "chunks_with_embeddings": 1200,
+#  "searches": 15, "document_types": {"report": 30, "motion": 12}}
+```
+
+### close()
+
+Close the database connection.
+
+```python
+store.close()
+```

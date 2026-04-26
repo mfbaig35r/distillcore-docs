@@ -1,0 +1,89 @@
+# Async & Batch Processing
+
+distillcore provides async versions of all pipeline functions and batch processing with configurable concurrency.
+
+## Async Processing
+
+### Single document
+
+```python
+from distillcore import process_document_async
+
+result = await process_document_async("report.pdf")
+```
+
+### Single text
+
+```python
+from distillcore import process_text_async
+
+result = await process_text_async("The court finds that...")
+```
+
+## Batch Processing
+
+### Async batch
+
+```python
+from distillcore import process_batch
+
+results = await process_batch(
+    ["doc1.pdf", "doc2.pdf", "doc3.pdf"],
+    max_concurrent=3,       # concurrent documents
+    on_result=callback,     # optional progress callback
+)
+```
+
+The `on_result` callback receives each `ProcessingResult` as it completes:
+
+```python
+def callback(result):
+    print(f"Done: {result.document.source_filename}")
+
+results = await process_batch(sources, on_result=callback)
+```
+
+### Synchronous batch
+
+For scripts that don't use asyncio:
+
+```python
+from distillcore import process_batch_sync
+
+results = process_batch_sync(
+    ["doc1.pdf", "doc2.pdf", "doc3.pdf"],
+    max_concurrent=3,
+)
+```
+
+## Configuration
+
+All batch functions accept the same parameters as their single-document counterparts:
+
+```python
+from distillcore import process_batch, DistillConfig, ChunkConfig
+from distillcore.embedding import openai_embedder
+
+config = DistillConfig(
+    chunk=ChunkConfig(target_tokens=300),
+)
+
+results = await process_batch(
+    sources,
+    config=config,
+    embed=openai_embedder(api_key="sk-..."),
+    max_concurrent=5,
+)
+```
+
+## Progress Callback
+
+`DistillConfig.on_progress` receives stage-level events:
+
+```python
+def on_progress(stage: str, data: dict):
+    print(f"Stage: {stage}, Data: {data}")
+
+config = DistillConfig(on_progress=on_progress)
+result = await process_document_async("report.pdf", config=config)
+```

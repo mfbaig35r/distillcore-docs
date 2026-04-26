@@ -1,0 +1,48 @@
+# Research Agent
+
+The Research agent searches stored documents and synthesizes answers with citations. It is typically invoked standalone for ad-hoc queries, or conditionally after QA failure.
+
+## Tools
+
+| Tool | API | Description |
+|------|-----|-------------|
+| `search_store` | `Store.search()` | Semantic similarity search |
+| `get_document_info` | `Store.get_document()` | Retrieve document metadata |
+| `get_store_stats` | `Store.stats()` | Aggregate store statistics |
+
+## Output: ResearchResult
+
+```python
+class ResearchResult(BaseModel):
+    query: str
+    answer: str
+    citations: list[Citation]
+    documents_searched: int
+    reasoning: str
+
+class Citation(BaseModel):
+    document_id: str
+    source_filename: str
+    chunk_index: int
+    text_snippet: str
+    score: float
+```
+
+## How It Works
+
+1. Receives a research query (either from QA failure context or direct user query)
+2. Calls `search_store` with the query embedding to find relevant chunks
+3. Calls `get_document_info` to enrich results with document metadata
+4. Optionally calls `get_store_stats` for context on corpus size
+5. Synthesizes an answer grounded in the retrieved chunks
+6. Returns the answer with full citation chain
+
+## Standalone Usage
+
+```python
+async with Orchestrator() as orch:
+    result = await orch.research("What are the payment terms in our contracts?")
+    print(result.answer)
+    for cite in result.citations:
+        print(f"  [{cite.source_filename}] p.{cite.chunk_index}: {cite.text_snippet[:80]}")
+```

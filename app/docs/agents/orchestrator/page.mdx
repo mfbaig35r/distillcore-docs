@@ -1,0 +1,104 @@
+# Orchestrator
+
+The `Orchestrator` class manages agent lifecycle and coordinates the 4-agent pipeline.
+
+## Constructor
+
+```python
+from distillcore_agents import Orchestrator
+
+orch = Orchestrator(
+    model="openai:gpt-4o-mini",            # LLM model for agents
+    store_path="~/.distillcore/agents.db",  # agent result persistence
+    doc_store_path=None,                     # document store path
+    openai_api_key=None,                     # or OPENAI_API_KEY env var
+    tenant_id=None,                          # tenant isolation
+    max_concurrency=3,                       # batch concurrency limit
+)
+```
+
+## Async Context Manager
+
+```python
+async with Orchestrator() as orch:
+    # Agents are initialized, stores are connected
+    result = await orch.process_one("doc.pdf")
+# Stores are closed on exit
+```
+
+## Methods
+
+### process_one
+
+Run the full pipeline on a single document:
+
+```python
+result = await orch.process_one("doc.pdf")
+# Returns PipelineResult with triage, processing, qa, and optional research
+```
+
+### process_one_stream
+
+Stream agent events as they happen:
+
+```python
+async for event, result in orch.process_one_stream("doc.pdf"):
+    print(event.event_type)  # 'started', 'tool_call', 'tool_result', 'completed', 'error'
+    print(event.data)        # event-specific data
+# result is the final PipelineResult (available after loop)
+```
+
+### process_batch
+
+Process multiple documents concurrently:
+
+```python
+batch = await orch.process_batch(
+    ["doc1.pdf", "doc2.pdf", "doc3.pdf"],
+    batch_id="my-batch",         # optional batch identifier
+    on_progress=callback,        # optional progress callback
+)
+
+print(batch.total)       # 3
+print(batch.succeeded)   # 3
+print(batch.failed)      # 0
+```
+
+### research
+
+Run the Research agent standalone:
+
+```python
+result = await orch.research("What are the key findings?")
+```
+
+## Output Models
+
+### PipelineResult
+
+```python
+class PipelineResult(BaseModel):
+    session_id: str
+    source: str
+    triage: TriageDecision
+    processing: ProcessingDecision
+    qa: QADecision
+    research: ResearchResult | None  # only if QA fails
+```
+
+### BatchOutput
+
+```python
+class BatchOutput(BaseModel):
+    session_id: str
+    batch_id: str | None
+    results: list[PipelineResult]
+    failures: list[ItemFailure]
+    total: int
+    succeeded: int
+    failed: int
+```
+
+## Agent Result Store
+
+Pipeline results are automatically persisted to `~/.distillcore/agents.db` for audit and replay. Each run records triage decisions, coverage metrics, QA verdicts, and optional research results.

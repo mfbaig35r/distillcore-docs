@@ -1,0 +1,79 @@
+# Presets
+
+Presets are pre-configured `DomainConfig` objects that provide domain-specific LLM prompts for classification, structuring, and enrichment.
+
+## Available Presets
+
+```python
+from distillcore import list_presets
+
+print(list_presets())  # ['generic', 'legal']
+```
+
+## Generic Preset
+
+The default preset for general-purpose documents.
+
+```python
+from distillcore import load_preset
+
+config = load_preset("generic")
+```
+
+**Classification extracts:** document_type, document_title, author, date, summary
+
+**Structuring sections:** title, header, body, conclusion, appendix, and hierarchical sub-sections
+
+**Enrichment per chunk:** topic, key_concepts, relevance score
+
+## Legal Preset
+
+Optimized for legal documents including motions, orders, transcripts, and depositions.
+
+```python
+config = load_preset("legal")
+```
+
+**Classification extracts:** document_type, filing_party, case_number, court, judge, filing_date, is_transcript, attorneys
+
+**Structuring sections:** argument, holding, opinion, order, and legal document sections
+
+**Transcript support:** Automatically detects depositions and court transcripts, parsing speaker turns with Q/A formatting.
+
+## Using a Preset
+
+```python
+from distillcore import process_document, DistillConfig, load_preset
+
+config = DistillConfig(
+    domain=load_preset("legal"),
+    openai_api_key="sk-...",
+)
+
+result = process_document("motion.pdf", config=config)
+print(result.document.metadata)  # includes case_number, court, etc.
+```
+
+## Creating a Custom Preset
+
+Implement a `DomainConfig` with your own prompts:
+
+```python
+from distillcore import DomainConfig
+
+medical_preset = DomainConfig(
+    name="medical",
+    classification_prompt="Analyze this medical document...",
+    structuring_prompt="Extract sections from this clinical note...",
+    transcript_prompt="Parse this patient consultation...",
+    enrichment_prompt="For this medical text chunk...",
+    parse_classification=my_custom_parser,  # optional
+)
+```
+
+Then use it:
+
+```python
+config = DistillConfig(domain=medical_preset)
+result = process_document("clinical_note.pdf", config=config)
+```

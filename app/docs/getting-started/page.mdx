@@ -1,0 +1,115 @@
+# Getting Started
+
+## Installation
+
+```bash
+pip install distillcore
+```
+
+For the agent layer:
+
+```bash
+pip install distillcore-agents
+```
+
+Optional extras for local embeddings or Cohere:
+
+```bash
+pip install distillcore[local]    # sentence-transformers
+pip install distillcore[cohere]   # Cohere embeddings
+```
+
+## Prerequisites
+
+- Python 3.11+
+- An OpenAI API key (for classification, structuring, and enrichment)
+
+Set your API key:
+
+```bash
+export OPENAI_API_KEY="sk-..."
+```
+
+Or pass it in config:
+
+```python
+from distillcore import process_document, DistillConfig
+
+config = DistillConfig(openai_api_key="sk-...")
+result = process_document("report.pdf", config=config)
+```
+
+## First Pipeline Run
+
+### Process a file
+
+```python
+from distillcore import process_document
+
+result = process_document("report.pdf")
+
+print(result.document.document_type)   # e.g., "report"
+print(result.document.document_title)  # e.g., "Q4 Financial Report"
+print(f"Sections: {len(result.document.sections)}")
+print(f"Chunks: {len(result.chunks)}")
+print(f"Coverage: {result.validation.end_to_end_coverage:.1%}")
+```
+
+### Process raw text
+
+```python
+from distillcore import process_text
+
+result = process_text(
+    "The court finds that the defendant...",
+    config=DistillConfig(openai_api_key="sk-..."),
+)
+```
+
+### With embeddings
+
+```python
+from distillcore import process_document
+from distillcore.embedding import openai_embedder
+
+result = process_document(
+    "report.pdf",
+    embed=openai_embedder(api_key="sk-..."),
+)
+
+# Each chunk now has an embedding vector
+print(len(result.chunks[0].embedding))  # e.g., 1536
+```
+
+### Save and search
+
+```python
+from distillcore.storage import Store
+
+store = Store()
+doc_id = store.save(result)
+
+# Semantic search
+results = store.search(query_embedding, top_k=5)
+for r in results:
+    print(r["score"], r["text"][:100])
+```
+
+## Using the Agent Layer
+
+```python
+from distillcore_agents import Orchestrator
+
+async with Orchestrator(openai_api_key="sk-...") as orch:
+    result = await orch.process_one("contract.pdf")
+
+    print(result.triage.preset)          # "legal"
+    print(result.processing.chunk_count) # 24
+    print(result.qa.verified)            # True
+```
+
+## Next Steps
+
+- [Configuration](/docs/configuration) — Customize chunk sizes, models, and thresholds
+- [Presets](/docs/presets) — Domain-specific processing (generic, legal)
+- [Extractors](/docs/extractors) — Supported file formats and custom extractors

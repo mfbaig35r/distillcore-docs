@@ -1,0 +1,50 @@
+# Triage Agent
+
+The Triage agent assesses incoming documents and configures the processing pipeline.
+
+## Tools
+
+| Tool | API | Description |
+|------|-----|-------------|
+| `preview_document` | `extract()` | Extract first page for assessment |
+| `list_available_presets` | `list_presets()` | Get available domain presets |
+
+## Output: TriageDecision
+
+```python
+class TriageDecision(BaseModel):
+    source_filename: str
+    page_count: int
+    detected_format: str
+    preset: str                     # "generic" or "legal"
+    needs_ocr: bool
+    target_tokens: int              # recommended chunk size
+    overlap_chars: int
+    enable_enrichment: bool
+    llm_page_window_size: int
+    reasoning: str                  # explanation of choices
+```
+
+## How It Works
+
+1. Calls `preview_document` to extract the first page and get format/page count/character stats
+2. Calls `list_available_presets` to see what domain presets are available
+3. Analyzes the preview text to determine document type
+4. Returns a `TriageDecision` with recommended configuration
+
+## Example Output
+
+```json
+{
+  "source_filename": "motion_to_dismiss.pdf",
+  "page_count": 12,
+  "detected_format": "pdf",
+  "preset": "legal",
+  "needs_ocr": false,
+  "target_tokens": 500,
+  "overlap_chars": 200,
+  "enable_enrichment": true,
+  "llm_page_window_size": 15,
+  "reasoning": "Document contains case numbers, legal citations, and party names consistent with a legal motion."
+}
+```

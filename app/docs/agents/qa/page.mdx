@@ -1,0 +1,53 @@
+# QA Agent
+
+The QA agent validates the output of the Processing agent, checking coverage thresholds and chunk quality.
+
+## Tools
+
+| Tool | API | Description |
+|------|-----|-------------|
+| `check_coverage` | `compute_coverage()` | Compute end-to-end word coverage |
+| `check_chunks` | *(pure inspection)* | Inspect chunk quality metrics |
+
+## Output: QADecision
+
+```python
+class QADecision(BaseModel):
+    verified: bool
+    structuring_coverage: float
+    chunking_coverage: float
+    end_to_end_coverage: float
+    empty_chunk_count: int
+    chunks_missing_topics: int
+    recommendations: list[QARecommendation]
+    reasoning: str
+
+class QARecommendation(BaseModel):
+    issue: str
+    action: str
+    parameter: str
+    suggested_value: str
+```
+
+## How It Works
+
+1. Calls `check_coverage` to compute word-level coverage between the source text and chunks
+2. Calls `check_chunks` to inspect chunk quality:
+   - Empty chunks (less than 10 characters)
+   - Chunks missing topic labels
+   - Chunks missing key_concepts
+3. If quality is acceptable, sets `verified=True`
+4. If issues found, returns `QARecommendation` objects suggesting parameter adjustments
+
+## Example Recommendation
+
+```json
+{
+  "issue": "3 empty chunks detected",
+  "action": "increase",
+  "parameter": "target_tokens",
+  "suggested_value": "600"
+}
+```
+
+Note: `check_chunks` does not call any distillcore API — it performs pure Python inspection of the chunk data.

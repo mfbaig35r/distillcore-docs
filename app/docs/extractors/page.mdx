@@ -1,0 +1,66 @@
+# Extractors
+
+Extractors convert raw files into text. distillcore ships with four built-in extractors and supports custom extractors via a protocol.
+
+## Built-in Extractors
+
+| Extractor | Formats | Dependency |
+|-----------|---------|------------|
+| `TextExtractor` | txt, text, md, markdown | None (stdlib) |
+| `PdfExtractor` | pdf | `pdfplumber` |
+| `DocxExtractor` | docx | `python-docx` |
+| `HtmlExtractor` | html, htm | `beautifulsoup4` |
+
+All extractors are registered automatically on import.
+
+## Using the Extract API
+
+```python
+from distillcore import extract
+
+result = extract("report.pdf")
+print(result.full_text[:200])
+print(f"{result.page_count} pages")
+
+# With explicit format
+result = extract("data.txt", format="markdown")
+```
+
+The `extract()` function auto-detects format from the file extension. You can override with the `format` parameter.
+
+## Extractor Protocol
+
+Custom extractors implement two attributes:
+
+```python
+from distillcore import register_extractor
+
+class CsvExtractor:
+    formats = ["csv", "tsv"]
+
+    def extract(self, source, config=None):
+        # source is a Path object
+        text = source.read_text()
+        pages_text = [{"page_number": 1, "text": text}]
+        return ExtractionResult(
+            full_text=text,
+            pages_text=pages_text,
+            page_count=1,
+        )
+
+register_extractor(CsvExtractor())
+```
+
+After registration, `extract("data.csv")` and `process_document("data.csv")` will use your extractor.
+
+## Format Detection
+
+`extract()` detects formats by file extension. The mapping is:
+
+- `.pdf` → pdf
+- `.docx` → docx
+- `.html`, `.htm` → html
+- `.txt`, `.text` → txt
+- `.md`, `.markdown` → markdown
+
+Unrecognized extensions raise `ValueError` unless you specify `format=` explicitly.

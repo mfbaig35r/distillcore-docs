@@ -1,0 +1,82 @@
+# process_document()
+
+Process a file through the full 7-stage pipeline.
+
+## Signature
+
+```python
+def process_document(
+    source: str | Path,
+    *,
+    config: DistillConfig | None = None,
+    format: str | None = None,
+    embed: Callable[[list[str]], list[list[float]]] | None = None,
+) -> ProcessingResult:
+```
+
+## Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `source` | `str \| Path` | required | File path to process |
+| `config` | `DistillConfig` | `None` | Pipeline configuration (uses defaults if None) |
+| `format` | `str` | `None` | Override format detection (e.g., "pdf", "docx") |
+| `embed` | `Callable` | `None` | Embedding function to generate vectors |
+
+## Returns
+
+`ProcessingResult` with:
+
+```python
+class ProcessingResult:
+    document: Document          # structured document with sections
+    chunks: list[DocumentChunk] # chunked and optionally embedded/enriched
+    validation: ValidationReport # coverage metrics at each stage
+    source_filename: str
+    full_text: str              # original extracted text
+```
+
+## Examples
+
+### Basic usage
+
+```python
+from distillcore import process_document
+
+result = process_document("report.pdf")
+```
+
+### With configuration
+
+```python
+from distillcore import process_document, DistillConfig, ChunkConfig
+
+result = process_document(
+    "report.pdf",
+    config=DistillConfig(
+        chunk=ChunkConfig(target_tokens=300),
+        enrich_chunks=False,
+    ),
+)
+```
+
+### With embeddings
+
+```python
+from distillcore.embedding import openai_embedder
+
+result = process_document(
+    "report.pdf",
+    embed=openai_embedder(api_key="sk-..."),
+)
+```
+
+## Async Version
+
+```python
+from distillcore import process_document_async
+
+result = await process_document_async("report.pdf")
+```
+
+Same parameters and return type.

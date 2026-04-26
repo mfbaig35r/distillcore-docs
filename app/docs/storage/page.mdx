@@ -1,0 +1,123 @@
+# Storage
+
+The `Store` class provides SQLite-backed persistence with cosine similarity search and tenant isolation.
+
+## Quick Start
+
+```python
+from distillcore.storage import Store
+from distillcore import process_document
+from distillcore.embedding import openai_embedder
+
+# Process and embed
+result = process_document(
+    "report.pdf",
+    embed=openai_embedder(api_key="sk-..."),
+)
+
+# Save
+store = Store()  # defaults to ~/.distillcore/store.db
+doc_id = store.save(result)
+```
+
+## Constructor
+
+```python
+Store(path="~/.distillcore/store.db")
+```
+
+Creates or opens the SQLite database. The schema is created automatically.
+
+## Methods
+
+### save
+
+```python
+doc_id = store.save(result, tenant_id=None)
+```
+
+Saves a `ProcessingResult` (document + chunks). Returns the document ID.
+
+### get_document
+
+```python
+doc = store.get_document(document_id, tenant_id=None)
+# Returns dict with document metadata, or None
+```
+
+### list_documents
+
+```python
+docs = store.list_documents(
+    document_type=None,  # filter by type
+    limit=50,
+    tenant_id=None,
+)
+```
+
+### get_chunks
+
+```python
+chunks = store.get_chunks(document_id, tenant_id=None)
+# Returns list of chunk dicts, ordered by chunk_index
+```
+
+### search
+
+```python
+results = store.search(
+    query_embedding,          # list[float]
+    top_k=10,
+    document_type=None,       # filter by type
+    document_id=None,         # filter by document
+    tenant_id=None,
+)
+```
+
+Returns chunks ranked by cosine similarity with a `score` field (higher = more similar).
+
+### delete_document
+
+```python
+deleted = store.delete_document(document_id, tenant_id=None)
+# Returns True if deleted, False if not found
+# Cascades to chunks
+```
+
+### stats
+
+```python
+stats = store.stats()
+# {
+#   "documents": 42,
+#   "chunks": 1200,
+#   "chunks_with_embeddings": 1200,
+#   "searches": 15,
+#   "document_types": {"report": 30, "motion": 12}
+# }
+```
+
+### close
+
+```python
+store.close()
+```
+
+## Tenant Isolation
+
+Every method accepts an optional `tenant_id`. When provided, queries are scoped to that tenant:
+
+```python
+store.save(result, tenant_id="org-123")
+docs = store.list_documents(tenant_id="org-123")
+# Only sees documents for org-123
+```
+
+## Schema
+
+The store uses three tables:
+- `documents` — document metadata, type, source filename
+- `chunks` — chunk text, embeddings (JSON), enrichment metadata
+- `search_log` — query analytics
+
+All operations are thread-safe via an internal lock.

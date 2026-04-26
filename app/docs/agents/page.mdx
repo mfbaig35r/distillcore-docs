@@ -1,0 +1,66 @@
+# Agents
+
+`distillcore-agents` adds an autonomous orchestration layer on top of the distillcore pipeline. Four specialized agents collaborate to process documents end-to-end.
+
+## Architecture
+
+```
+Document → [Triage] → [Processing] → [QA] → [Research*] → Result
+                                              * conditional
+```
+
+| Agent | Model | Tools | Purpose |
+|-------|-------|-------|---------|
+| **Triage** | 5.4-mini | 2 | Assess document, select preset and config |
+| **Processing** | 5.4-mini | 2 | Execute pipeline, save results |
+| **QA** | 5.4-mini | 2 | Validate coverage and chunk quality |
+| **Research** | 5.4-mini | 3 | Search stored docs, synthesize answers |
+
+## Quick Start
+
+```python
+from distillcore_agents import Orchestrator
+
+async with Orchestrator(openai_api_key="sk-...") as orch:
+    result = await orch.process_one("contract.pdf")
+
+    print(result.triage.preset)          # "legal"
+    print(result.triage.reasoning)       # "Contains case numbers..."
+    print(result.processing.chunk_count) # 24
+    print(result.qa.verified)            # True
+```
+
+## Pipeline Flow
+
+1. **Triage** previews the document and selects the optimal configuration
+2. **Processing** runs the full 7-stage pipeline with triage's recommendations
+3. **QA** checks coverage thresholds and inspects chunk quality
+4. **Research** only runs if QA fails, searching for context to improve results
+
+## Batch Processing
+
+```python
+async with Orchestrator() as orch:
+    batch = await orch.process_batch(
+        ["doc1.pdf", "doc2.pdf", "doc3.pdf"],
+        max_concurrency=3,
+    )
+    print(f"{batch.succeeded}/{batch.total} succeeded")
+```
+
+## Streaming
+
+```python
+async with Orchestrator() as orch:
+    async for event, result in orch.process_one_stream("doc.pdf"):
+        print(event.event_type, event.data)
+    # result is the final PipelineResult
+```
+
+## Learn More
+
+- [Triage Agent](/docs/agents/triage)
+- [Processing Agent](/docs/agents/processing)
+- [QA Agent](/docs/agents/qa)
+- [Research Agent](/docs/agents/research)
+- [Orchestrator](/docs/agents/orchestrator)
