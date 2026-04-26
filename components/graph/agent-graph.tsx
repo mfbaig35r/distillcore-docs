@@ -12,8 +12,9 @@ import { loadApiIconsWhite } from '@/lib/graph/agent-icons';
 const ALL_AGENTS = new Set<AgentId>(AGENTS.map(a => a.id));
 
 const AGENT_FORCE_CONFIG: ForceConfig = {
-  chargeStrength: -300,
-  linkDistance: 120,
+  chargeStrength: -80,
+  linkDistance: 50,
+  centerStrength: 0.15,
 };
 
 export function AgentGraph() {
