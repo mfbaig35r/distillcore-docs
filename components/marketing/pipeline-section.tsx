@@ -69,7 +69,7 @@ export function PipelineSection() {
         </p>
       </motion.div>
 
-      <div className="grid gap-4">
+      <div className="grid gap-4 max-w-2xl">
         {stages.map((stage, i) => (
           <motion.div
             key={stage.name}
