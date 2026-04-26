@@ -79,7 +79,7 @@ export default function AboutPage() {
             <div className="grid gap-4 max-w-2xl">
               <ProjectCard
                 name="distillcore"
-                description="Universal document processing library. 7-stage pipeline: extract, classify, structure, chunk, enrich, embed, validate. 8 file formats, 4 embedding providers, SQLite storage."
+                description="Universal document processing library. 7-stage pipeline: extract, classify, structure, chunk, enrich, embed, validate. 5 file formats (PDF, DOCX, HTML, TXT, Markdown), 4 embedding providers, SQLite storage."
                 href="https://github.com/mfbaig35r/distillcore"
                 pypi="https://pypi.org/project/distillcore/"
                 version="v0.4.0"
@@ -89,6 +89,7 @@ export default function AboutPage() {
                 description="Pydantic-AI agent layer. 4-agent sequential pipeline (Triage, Processing, QA, Research) that autonomously configures and validates the distillcore pipeline."
                 href="https://github.com/mfbaig35r/distillcore-agents"
                 version="v0.1.0"
+                early
               />
               <ProjectCard
                 name="distillcore-docs"
@@ -111,12 +112,14 @@ function ProjectCard({
   href,
   pypi,
   version,
+  early,
 }: {
   name: string
   description: string
   href: string
   pypi?: string
   version?: string
+  early?: boolean
 }) {
   return (
     <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-4">
@@ -125,6 +128,11 @@ function ProjectCard({
         {version && (
           <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20">
             {version}
+          </span>
+        )}
+        {early && (
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">
+            early
           </span>
         )}
         <div className="flex items-center gap-2 ml-auto">

@@ -84,7 +84,7 @@ export function Hero() {
           <pre className="text-sm font-mono leading-relaxed">
             <span className="text-neutral-500">$</span> <span className="text-emerald-400">pip install</span> <span className="text-purple-400">distillcore</span>          <span className="text-neutral-600"># core library</span>
             {'\n'}
-            <span className="text-neutral-500">$</span> <span className="text-emerald-400">pip install</span> <span className="text-purple-400">distillcore-agents</span>  <span className="text-neutral-600"># optional agent layer</span>
+            <span className="text-neutral-500">$</span> <span className="text-emerald-400">pip install</span> <span className="text-purple-400">distillcore-agents</span>  <span className="text-neutral-600"># optional agent layer (early)</span>
           </pre>
         </motion.div>
 

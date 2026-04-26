@@ -12,7 +12,7 @@ const navbar = (
 const footer = (
   <Footer>
     <div className="flex flex-col items-center gap-2 text-sm">
-      <p>MIT {new Date().getFullYear()} &copy; distillcore</p>
+      <p>&copy; {new Date().getFullYear()} distillcore &mdash; MIT License</p>
       <p className="text-neutral-500">
         A{' '}
         <a

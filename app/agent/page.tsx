@@ -13,7 +13,8 @@ export default function AgentPage() {
           <h1 className="text-3xl font-bold text-white mb-3">Agent Pipeline</h1>
           <p className="text-neutral-400 mb-8 max-w-2xl">
             Real-time visualization of the 4-agent document processing pipeline.
-            Triage assesses the document, Processing runs the pipeline, and QA validates quality.
+            Triage assesses the document, Processing runs the pipeline, QA validates quality,
+            and Research re-processes if QA fails.
           </p>
           <AgentWorkspace />
         </div>

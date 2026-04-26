@@ -22,7 +22,7 @@ pip install distillcore[cohere]   # Cohere embeddings
 ## Prerequisites
 
 - Python 3.11+
-- An OpenAI API key (for classification, structuring, and enrichment)
+- An OpenAI API key (for classification, structuring, and enrichment). Not required if you only use local sentence-transformers or Cohere for embeddings and skip the LLM-powered stages.
 
 Set your API key:
 
@@ -85,11 +85,15 @@ print(len(result.chunks[0].embedding))  # e.g., 1536
 
 ```python
 from distillcore.storage import Store
+from distillcore.embedding import openai_embedder
 
 store = Store()
 doc_id = store.save(result)
 
-# Semantic search
+# Generate a query embedding and search
+embed = openai_embedder(api_key="sk-...")
+query_embedding = embed("financial reporting requirements")
+
 results = store.search(query_embedding, top_k=5)
 for r in results:
     print(r["score"], r["text"][:100])
