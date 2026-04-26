@@ -8,7 +8,7 @@ distillcore supports four embedding providers. Each returns a callable with sign
 from distillcore.embedding import openai_embedder
 
 embed = openai_embedder(
-    model="text-embedding-3-small",  # default, 1536 dims
+    model="text-embedding-3-small",   # default, 1536 dims
     api_key="sk-...",                 # or OPENAI_API_KEY env var
 )
 
@@ -24,12 +24,12 @@ Local embeddings via Ollama. No API key needed.
 from distillcore.embedding import ollama_embedder
 
 embed = ollama_embedder(
-    model="nomic-embed-text",         # default, 768 dims
+    model="nomic-embed-text",          # default, 768 dims
     base_url="http://localhost:11434", # default
 )
 
 # Alternatives
-embed = ollama_embedder(model="mxbai-embed-large")  # 1024 dims
+embed = ollama_embedder(model="mxbai-embed-large")   # 1024 dims
 embed = ollama_embedder(model="all-minilm")          # 384 dims
 ```
 
@@ -45,7 +45,7 @@ pip install distillcore[local]
 from distillcore.embedding import local_embedder
 
 embed = local_embedder(
-    model="all-MiniLM-L6-v2",  # default, 384 dims
+    model="all-MiniLM-L6-v2",   # default, 384 dims
     device=None,                # auto-detect (cuda/mps/cpu)
 )
 
@@ -63,9 +63,9 @@ pip install distillcore[cohere]
 from distillcore.embedding import cohere_embedder
 
 embed = cohere_embedder(
-    model="embed-english-v3.0",       # default
+    model="embed-english-v3.0",        # default
     api_key="...",                     # or CO_API_KEY env var
-    input_type="search_document",     # for indexing
+    input_type="search_document",      # for indexing
 )
 
 # For queries
