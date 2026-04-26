@@ -4,9 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import {
   Book,
-  Code,
   Cpu,
-  Network,
   FileText,
   Tag,
   LayoutList,
@@ -18,10 +16,8 @@ import {
 } from 'lucide-react'
 
 const quickLinks = [
-  { href: '/docs', label: 'Documentation', icon: Book },
+  { href: '/docs/getting-started', label: 'Get Started', icon: Book },
   { href: '/agent', label: 'Agent Playground', icon: Cpu },
-  { href: '/architecture', label: 'Architecture', icon: Network },
-  { href: '/docs/api', label: 'API Reference', icon: Code },
 ]
 
 const pipelineStages = [
@@ -86,11 +82,20 @@ export function Hero() {
           transition={{ duration: 0.4, delay: 0.15 }}
         >
           <pre className="text-sm font-mono leading-relaxed">
-            <span className="text-neutral-500">$</span> <span className="text-emerald-400">pip install</span> <span className="text-purple-400">distillcore</span>
+            <span className="text-neutral-500">$</span> <span className="text-emerald-400">pip install</span> <span className="text-purple-400">distillcore</span>          <span className="text-neutral-600"># core library</span>
             {'\n'}
-            <span className="text-neutral-500">$</span> <span className="text-emerald-400">pip install</span> <span className="text-purple-400">distillcore-agents</span>
+            <span className="text-neutral-500">$</span> <span className="text-emerald-400">pip install</span> <span className="text-purple-400">distillcore-agents</span>  <span className="text-neutral-600"># optional agent layer</span>
           </pre>
         </motion.div>
+
+        <motion.p
+          className="text-xs text-neutral-500 mb-8 -mt-5 max-w-2xl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.18 }}
+        >
+          MIT licensed &middot; open source &middot; self-hosted
+        </motion.p>
 
         {/* Animated pipeline diagram */}
         <motion.div
@@ -122,7 +127,7 @@ export function Hero() {
 
         {/* Quick links */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl"
+          className="grid grid-cols-2 gap-3 max-w-sm"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.5 }}

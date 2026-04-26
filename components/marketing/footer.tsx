@@ -61,7 +61,7 @@ export function MarketingFooter() {
             <span className="font-bold text-white">distillcore</span>
           </div>
           <p className="text-sm text-neutral-500">
-            MIT {new Date().getFullYear()} &copy; distillcore &mdash; A{' '}
+            &copy; {new Date().getFullYear()} distillcore &mdash; MIT License &mdash; A{' '}
             <a
               href="https://cognitionkernel.agency"
               target="_blank"

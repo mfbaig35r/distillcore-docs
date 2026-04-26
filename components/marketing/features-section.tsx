@@ -50,8 +50,8 @@ const features = [
   },
   {
     icon: TestTubeDiagonal,
-    title: '193+ tests',
-    description: 'Comprehensive test suite across both packages. CI/CD pipelines. Published to PyPI.',
+    title: 'Tested & published',
+    description: 'Comprehensive test suite across both packages with CI/CD pipelines. Published to PyPI.',
   },
 ]
 

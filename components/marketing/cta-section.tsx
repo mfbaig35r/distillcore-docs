@@ -22,13 +22,7 @@ export function CTASection() {
             href="/agent"
             className="bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white rounded-lg px-6 py-2.5 text-sm font-medium transition-colors"
           >
-            Agent Playground
-          </Link>
-          <Link
-            href="/architecture"
-            className="bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white rounded-lg px-6 py-2.5 text-sm font-medium transition-colors"
-          >
-            Architecture
+            Try the Agent Playground
           </Link>
         </div>
       </div>
