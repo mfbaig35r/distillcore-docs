@@ -39,7 +39,9 @@ export default function RootLayout({
           saturation: { dark: 91, light: 91 },
           lightness: { dark: 65, light: 45 },
         }}
-      />
+      >
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      </Head>
       <body>
         <Script
           id="force-dark-mode"
