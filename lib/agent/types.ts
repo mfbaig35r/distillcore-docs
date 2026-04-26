@@ -99,6 +99,7 @@ export interface AgentEvent {
 
 // Client → Server messages
 export type ClientMessage =
+  | { type: 'auth'; api_key: string }
   | { type: 'process'; id: string; source: string }
   | { type: 'process_text'; id: string; text: string }
   | { type: 'cancel'; id: string }
@@ -106,6 +107,8 @@ export type ClientMessage =
 
 // Server → Client messages
 export type ServerMessage =
+  | { type: 'auth_ok' }
+  | { type: 'auth_failed'; error: string }
   | { type: 'agent_event'; id: string; event: AgentEvent }
   | { type: 'result'; id: string; output: PipelineResult }
   | { type: 'error'; id: string; error: { type: string; message: string } }

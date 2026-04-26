@@ -39,6 +39,7 @@ export class AgentWebSocket {
   disconnect() {
     this.intentionalClose = true;
     this._cleanup();
+    this.apiKey = '';
     this.store.setConnectionStatus('disconnected');
   }
 
@@ -52,18 +53,18 @@ export class AgentWebSocket {
     this._cleanup();
     this.store.setConnectionStatus('connecting');
 
-    const wsUrl = this.apiKey
-      ? `${this.url}?api_key=${encodeURIComponent(this.apiKey)}`
-      : this.url;
-
-    const ws = new WebSocket(wsUrl);
+    const ws = new WebSocket(this.url);
 
     ws.onopen = () => {
       this.reconnectAttempt = 0;
-      this.store.setConnectionStatus('connected');
-      this.pingTimer = setInterval(() => {
-        this.send({ type: 'ping' });
-      }, PING_INTERVAL);
+      // Authenticate via first message instead of query params
+      if (this.apiKey) {
+        ws.send(JSON.stringify({ type: 'auth', api_key: this.apiKey }));
+      } else {
+        // No key required — mark connected immediately
+        this.store.setConnectionStatus('connected');
+        this._startPing();
+      }
     };
 
     ws.onmessage = (event) => {
@@ -92,6 +93,15 @@ export class AgentWebSocket {
 
   private _handleMessage(msg: ServerMessage) {
     switch (msg.type) {
+      case 'auth_ok':
+        this.store.setConnectionStatus('connected');
+        this._startPing();
+        break;
+      case 'auth_failed':
+        this.store.setConnectionStatus('error');
+        this.intentionalClose = true;
+        this.ws?.close();
+        break;
       case 'agent_event':
         this.store.handleAgentEvent(msg.id, msg);
         break;
@@ -107,6 +117,12 @@ export class AgentWebSocket {
       case 'pong':
         break;
     }
+  }
+
+  private _startPing() {
+    this.pingTimer = setInterval(() => {
+      this.send({ type: 'ping' });
+    }, PING_INTERVAL);
   }
 
   private _scheduleReconnect() {

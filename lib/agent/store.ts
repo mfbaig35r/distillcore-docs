@@ -40,7 +40,10 @@ function findOrCreateStage(stages: AgentStage[], agentName: AgentName): [AgentSt
 
 export const useAgentStore = create<AgentStore>((set, get) => ({
   connectionStatus: 'disconnected',
-  setConnectionStatus: (status) => set({ connectionStatus: status }),
+  setConnectionStatus: (status) => {
+    set({ connectionStatus: status });
+    if (status === 'disconnected') set({ apiKey: '' });
+  },
   apiUrl: 'ws://127.0.0.1:8000/ws/agent',
   apiKey: '',
   setApiUrl: (url) => set({ apiUrl: url }),

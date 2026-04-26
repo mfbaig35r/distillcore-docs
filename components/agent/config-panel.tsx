@@ -86,8 +86,10 @@ export function ConfigPanel({
               value={apiKey}
               onChange={e => setApiKey(e.target.value)}
               disabled={isConnected}
+              placeholder="Optional — cleared on disconnect"
               className="w-full bg-neutral-950 border border-neutral-800 focus:border-purple-500/50 rounded-lg px-3 py-1.5 text-sm text-neutral-200 disabled:opacity-50"
             />
+            <p className="text-[10px] text-neutral-600 mt-1">Memory only — never stored or sent in URLs</p>
           </div>
         </div>
       )}
