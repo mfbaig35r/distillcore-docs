@@ -8,6 +8,7 @@ const navLinks = [
   { href: '/docs', label: 'Docs' },
   { href: '/agent', label: 'Agent' },
   { href: '/architecture', label: 'Architecture' },
+  { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
   { href: 'https://github.com/mfbaig35r/distillcore', label: 'GitHub', external: true },
 ]
