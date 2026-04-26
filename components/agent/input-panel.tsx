@@ -5,9 +5,11 @@ import { Send } from 'lucide-react';
 
 export function InputPanel({
   disabled,
+  demoMode,
   onProcess,
 }: {
   disabled: boolean;
+  demoMode?: boolean;
   onProcess: (source: string, mode: 'file' | 'text') => void;
 }) {
   const [mode, setMode] = useState<'file' | 'text'>('file');
@@ -15,7 +17,7 @@ export function InputPanel({
 
   const handleSubmit = () => {
     const trimmed = input.trim();
-    if (!trimmed) return;
+    if (!trimmed && !demoMode) return;
     onProcess(trimmed, mode);
     setInput('');
   };
@@ -41,29 +43,18 @@ export function InputPanel({
 
       {/* Input */}
       <div className="flex gap-2">
-        {mode === 'file' ? (
-          <input
-            type="text"
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-            placeholder="e.g., /path/to/document.pdf"
-            disabled={disabled}
-            className="flex-1 bg-neutral-950 border border-neutral-800 focus:border-purple-500/50 rounded-lg px-3 py-2 text-sm text-neutral-200 placeholder-neutral-600 disabled:opacity-50"
-          />
-        ) : (
-          <textarea
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            placeholder="Paste document text here..."
-            disabled={disabled}
-            rows={3}
-            className="flex-1 bg-neutral-950 border border-neutral-800 focus:border-purple-500/50 rounded-lg px-3 py-2 text-sm text-neutral-200 placeholder-neutral-600 disabled:opacity-50 resize-none"
-          />
-        )}
+        <input
+          type="text"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+          placeholder={demoMode ? "Optional — press Send to run the demo" : mode === 'file' ? "e.g., /path/to/document.pdf" : "Paste document text here..."}
+          disabled={disabled}
+          className="flex-1 bg-neutral-950 border border-neutral-800 focus:border-purple-500/50 rounded-lg px-3 py-2 text-sm text-neutral-200 placeholder-neutral-600 disabled:opacity-50"
+        />
         <button
           onClick={handleSubmit}
-          disabled={disabled || !input.trim()}
+          disabled={disabled || (!input.trim() && !demoMode)}
           className="bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:hover:bg-purple-600 text-white rounded-lg px-4 py-2 transition-colors self-end"
         >
           <Send size={16} />

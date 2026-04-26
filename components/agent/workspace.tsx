@@ -71,6 +71,7 @@ export function AgentWorkspace() {
 
       <InputPanel
         disabled={!isReady}
+        demoMode={demoMode}
         onProcess={handleProcess}
       />
 
