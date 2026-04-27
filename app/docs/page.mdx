@@ -30,18 +30,31 @@ Four specialized agents work together:
 ## Quick Example
 
 ```python
-from distillcore import process_document
+from distillcore import process_document, chunk
 
+# Full pipeline
 result = process_document("report.pdf")
-print(result.document.document_type)
+print(result.document.metadata.document_type)
 print(f"{len(result.chunks)} chunks")
+
+# Or just chunk text — no LLM, no API key needed
+chunks = chunk("Your text here...", strategy="paragraph", target_tokens=500)
 ```
 
 ## Installation
 
 ```bash
+# Core library (chunking, extraction, validation, storage)
 pip install distillcore
-pip install distillcore-agents  # optional agent layer
+
+# With LLM features (classification, structuring, enrichment, OpenAI embeddings)
+pip install distillcore[openai]
+
+# Everything
+pip install distillcore[all]
+
+# Agent layer
+pip install distillcore-agents
 ```
 
 ## Next Steps

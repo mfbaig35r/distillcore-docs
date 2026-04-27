@@ -10,7 +10,7 @@ def process_document(
     *,
     config: DistillConfig | None = None,
     format: str | None = None,
-    embed: Callable[[list[str]], list[list[float]]] | None = None,
+    embed: bool = True,
 ) -> ProcessingResult:
 ```
 
@@ -21,7 +21,7 @@ def process_document(
 | `source` | `str \| Path` | required | File path to process |
 | `config` | `DistillConfig` | `None` | Pipeline configuration (uses defaults if None) |
 | `format` | `str` | `None` | Override format detection (e.g., "pdf", "docx") |
-| `embed` | `Callable` | `None` | Embedding function to generate vectors |
+| `embed` | `bool` | `True` | Whether to generate embeddings |
 
 ## Returns
 
@@ -32,8 +32,6 @@ class ProcessingResult:
     document: Document          # structured document with sections
     chunks: list[DocumentChunk] # chunked and optionally embedded/enriched
     validation: ValidationReport # coverage metrics at each stage
-    source_filename: str
-    full_text: str              # original extracted text
 ```
 
 ## Examples
@@ -60,15 +58,22 @@ result = process_document(
 )
 ```
 
-### With embeddings
+### With custom embedding function
 
 ```python
-from distillcore.embedding import openai_embedder
+from distillcore import process_document, DistillConfig, EmbeddingConfig
+from distillcore.embedding import ollama_embedder
 
-result = process_document(
-    "report.pdf",
-    embed=openai_embedder(api_key="sk-..."),
+config = DistillConfig(
+    embedding=EmbeddingConfig(embed_fn=ollama_embedder()),
 )
+result = process_document("report.pdf", config=config)
+```
+
+### Without embeddings
+
+```python
+result = process_document("report.pdf", embed=False)
 ```
 
 ## Async Version
@@ -79,4 +84,4 @@ from distillcore import process_document_async
 result = await process_document_async("report.pdf")
 ```
 
-Same parameters and return type.
+Same parameters and return type. Extraction is offloaded to a thread to avoid blocking the event loop.

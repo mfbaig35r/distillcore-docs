@@ -10,6 +10,7 @@ import {
   Shield,
   Bot,
   Code,
+  Scissors,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -23,6 +24,7 @@ const NavItem = ({ icon: Icon, children }: { icon: LucideIcon; children: React.R
 export default {
   index: <NavItem icon={Home}>Introduction</NavItem>,
   'getting-started': <NavItem icon={Rocket}>Getting Started</NavItem>,
+  chunking: <NavItem icon={Scissors}>Chunking</NavItem>,
   configuration: <NavItem icon={Settings}>Configuration</NavItem>,
   presets: <NavItem icon={Palette}>Presets</NavItem>,
   extractors: <NavItem icon={FileText}>Extractors</NavItem>,

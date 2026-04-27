@@ -10,7 +10,7 @@ The top-level configuration object. All fields have sensible defaults.
 from distillcore import DistillConfig
 
 config = DistillConfig(
-    # LLM settings
+    # LLM settings (requires distillcore[openai])
     openai_api_key="sk-...",       # or set OPENAI_API_KEY env var
     openai_model="gpt-4o",         # model for classification/structuring/enrichment
     max_tokens=16384,              # max tokens per LLM call
@@ -36,9 +36,6 @@ config = DistillConfig(
 
     # Security
     allowed_dirs=None,             # restrict file access paths
-
-    # Storage
-    store_path="~/.distillcore/store.db",
 
     # Progress callback
     on_progress=None,              # Callable[[str, dict], None]
@@ -69,8 +66,23 @@ chunk_config = ChunkConfig(
     target_tokens=500,     # target chunk size in tokens
     overlap_chars=200,     # character overlap between chunks
     max_tokens=1000,       # hard maximum chunk size
+    min_tokens=0,          # merge chunks below this (0 = disabled)
+    strategy="auto",       # "auto", "paragraph", "sentence", "fixed", "llm"
+    tokenizer=None,        # custom Callable[[str], int] for token counting
 )
 ```
+
+### Strategy options
+
+| Strategy | Description |
+|----------|-------------|
+| `"auto"` | (Default) Section-aware: transcripts → sections → fallback paragraph splitting |
+| `"paragraph"` | Split on paragraph boundaries with cascading subsplit for oversized blocks |
+| `"sentence"` | Split on sentence boundaries, greedily fill to target size |
+| `"fixed"` | Sliding window at word boundaries with overlap |
+| `"llm"` | LLM-driven semantic grouping (requires `distillcore[openai]`) |
+
+See [Chunking](/docs/chunking) for details on each strategy.
 
 ## EmbeddingConfig
 
@@ -117,7 +129,7 @@ from distillcore import (
 )
 
 config = DistillConfig(
-    chunk=ChunkConfig(target_tokens=300, overlap_chars=100),
+    chunk=ChunkConfig(target_tokens=300, overlap_chars=100, strategy="paragraph"),
     embedding=EmbeddingConfig(model="text-embedding-3-large"),
     enrich_chunks=False,  # skip enrichment for speed
 )

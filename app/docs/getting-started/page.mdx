@@ -3,7 +3,26 @@
 ## Installation
 
 ```bash
+# Core library (chunking, extraction, validation, storage — no API key needed)
 pip install distillcore
+
+# With LLM features (classification, structuring, enrichment, OpenAI embeddings)
+pip install distillcore[openai]
+
+# With file format support
+pip install distillcore[pdf]     # PDF extraction
+pip install distillcore[docx]    # DOCX extraction
+pip install distillcore[html]    # HTML extraction
+
+# Everything
+pip install distillcore[all]
+```
+
+For alternative embedding providers:
+
+```bash
+pip install distillcore[local]    # sentence-transformers
+pip install distillcore[cohere]   # Cohere embeddings
 ```
 
 For the agent layer:
@@ -12,17 +31,10 @@ For the agent layer:
 pip install distillcore-agents
 ```
 
-Optional extras for local embeddings or Cohere:
-
-```bash
-pip install distillcore[local]    # sentence-transformers
-pip install distillcore[cohere]   # Cohere embeddings
-```
-
 ## Prerequisites
 
 - Python 3.11+
-- An OpenAI API key (for classification, structuring, and enrichment). Not required if you only use local sentence-transformers or Cohere for embeddings and skip the LLM-powered stages.
+- An OpenAI API key is needed for LLM-powered stages (classification, structuring, enrichment) and OpenAI embeddings. **Not required** for standalone chunking, text extraction, validation, or storage.
 
 Set your API key:
 
@@ -39,6 +51,44 @@ config = DistillConfig(openai_api_key="sk-...")
 result = process_document("report.pdf", config=config)
 ```
 
+## Standalone Chunking (No API Key)
+
+The fastest way to get started — chunk text without any LLM calls:
+
+```python
+from distillcore import chunk, estimate_tokens
+
+text = open("document.txt").read()
+
+# Paragraph strategy (default) — splits on paragraph boundaries
+chunks = chunk(text, strategy="paragraph", target_tokens=500)
+
+# Sentence strategy — splits on sentence boundaries
+chunks = chunk(text, strategy="sentence", target_tokens=300)
+
+# Fixed strategy — sliding window with overlap
+chunks = chunk(text, strategy="fixed", target_tokens=500, overlap_tokens=50)
+
+# Check token estimates
+for i, c in enumerate(chunks):
+    print(f"Chunk {i}: {estimate_tokens(c)} tokens")
+```
+
+There's also an LLM-driven strategy for semantic chunking:
+
+```python
+# LLM strategy — GPT-4o groups sentences by topic (requires API key)
+chunks = chunk(text, strategy="llm", api_key="sk-...")
+```
+
+And an async version:
+
+```python
+from distillcore import achunk
+
+chunks = await achunk(text, strategy="paragraph", target_tokens=500)
+```
+
 ## First Pipeline Run
 
 ### Process a file
@@ -48,8 +98,8 @@ from distillcore import process_document
 
 result = process_document("report.pdf")
 
-print(result.document.document_type)   # e.g., "report"
-print(result.document.document_title)  # e.g., "Q4 Financial Report"
+print(result.document.metadata.document_type)   # e.g., "report"
+print(result.document.metadata.document_title)  # e.g., "Q4 Financial Report"
 print(f"Sections: {len(result.document.sections)}")
 print(f"Chunks: {len(result.chunks)}")
 print(f"Coverage: {result.validation.end_to_end_coverage:.1%}")
@@ -58,7 +108,7 @@ print(f"Coverage: {result.validation.end_to_end_coverage:.1%}")
 ### Process raw text
 
 ```python
-from distillcore import process_text
+from distillcore import process_text, DistillConfig
 
 result = process_text(
     "The court finds that the defendant...",
@@ -70,11 +120,10 @@ result = process_text(
 
 ```python
 from distillcore import process_document
-from distillcore.embedding import openai_embedder
 
 result = process_document(
     "report.pdf",
-    embed=openai_embedder(api_key="sk-..."),
+    embed=True,  # uses OpenAI text-embedding-3-small by default
 )
 
 # Each chunk now has an embedding vector
@@ -84,17 +133,15 @@ print(len(result.chunks[0].embedding))  # e.g., 1536
 ### Save and search
 
 ```python
-from distillcore.storage import Store
-from distillcore.embedding import openai_embedder
+from distillcore import Store
+from distillcore.llm.client import embed_texts
 
 store = Store()
 doc_id = store.save(result)
 
 # Generate a query embedding and search
-embed = openai_embedder(api_key="sk-...")
-query_embedding = embed("financial reporting requirements")
-
-results = store.search(query_embedding, top_k=5)
+query_emb = embed_texts(["financial reporting requirements"])[0]
+results = store.search(query_emb, top_k=5)
 for r in results:
     print(r["score"], r["text"][:100])
 ```
@@ -115,5 +162,6 @@ async with Orchestrator(openai_api_key="sk-...") as orch:
 ## Next Steps
 
 - [Configuration](/docs/configuration) — Customize chunk sizes, models, and thresholds
+- [Chunking](/docs/chunking) — Standalone chunking API with 4 strategies
 - [Presets](/docs/presets) — Domain-specific processing (generic, legal)
 - [Extractors](/docs/extractors) — Supported file formats and custom extractors

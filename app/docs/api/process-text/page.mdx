@@ -1,6 +1,6 @@
 # process_text()
 
-Process raw text through the full 7-stage pipeline.
+Process raw text through the pipeline (skips extraction).
 
 ## Signature
 
@@ -9,8 +9,8 @@ def process_text(
     text: str,
     *,
     config: DistillConfig | None = None,
-    filename: str | None = None,
-    embed: Callable[[list[str]], list[list[float]]] | None = None,
+    filename: str = "input.txt",
+    embed: bool = True,
 ) -> ProcessingResult:
 ```
 
@@ -20,8 +20,8 @@ def process_text(
 |-----------|------|---------|-------------|
 | `text` | `str` | required | Raw text to process |
 | `config` | `DistillConfig` | `None` | Pipeline configuration |
-| `filename` | `str` | `None` | Virtual filename for metadata |
-| `embed` | `Callable` | `None` | Embedding function |
+| `filename` | `str` | `"input.txt"` | Virtual filename for metadata |
+| `embed` | `bool` | `True` | Whether to generate embeddings |
 
 ## Returns
 
@@ -35,6 +35,18 @@ from distillcore import process_text
 result = process_text(
     "The court hereby orders that the motion to dismiss is denied...",
     filename="order.txt",
+)
+```
+
+### Without LLM features
+
+```python
+from distillcore import process_text, DistillConfig, DomainConfig
+
+result = process_text(
+    "Some text to chunk without any LLM calls.",
+    config=DistillConfig(domain=DomainConfig(), enrich_chunks=False),
+    embed=False,
 )
 ```
 

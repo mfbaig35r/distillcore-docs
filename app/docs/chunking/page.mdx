@@ -1,0 +1,133 @@
+# Chunking
+
+distillcore provides a standalone chunking API that works without any LLM calls or API keys (except the `llm` strategy). Import `chunk` and go.
+
+## Strategies
+
+### Paragraph (default)
+
+Splits on paragraph boundaries (`\n\n`). Oversized paragraphs are subsplit using cascading strategies: line breaks → sentence boundaries → hard cut at word boundary. Supports overlap.
+
+```python
+from distillcore import chunk
+
+chunks = chunk(text, strategy="paragraph", target_tokens=500, overlap_tokens=50)
+```
+
+Best for: general documents, articles, reports.
+
+### Sentence
+
+Splits on sentence boundaries (`.!?` followed by whitespace and a capital letter), then greedily fills chunks to the target size.
+
+```python
+chunks = chunk(text, strategy="sentence", target_tokens=300)
+```
+
+Best for: documents where sentence integrity matters (legal, academic).
+
+### Fixed
+
+Pure sliding window at word boundaries. Produces uniform chunk sizes with configurable overlap.
+
+```python
+chunks = chunk(text, strategy="fixed", target_tokens=500, overlap_tokens=50)
+```
+
+Best for: uniform chunk sizes for embedding models with fixed context windows.
+
+### LLM
+
+Sends numbered sentences to an LLM (GPT-4o by default) which groups them into semantically coherent chunks. Large documents (>300 sentences) are processed in overlapping windows. Falls back to paragraph strategy on API error.
+
+```python
+chunks = chunk(text, strategy="llm", api_key="sk-...", target_tokens=500)
+```
+
+Best for: documents where topic boundaries matter and you want the highest-quality semantic chunks.
+
+Requires `distillcore[openai]`.
+
+## Full API
+
+```python
+from distillcore import chunk
+
+chunks = chunk(
+    text,                          # required
+    strategy="paragraph",          # "paragraph", "sentence", "fixed", "llm"
+    target_tokens=500,             # target chunk size in tokens
+    max_tokens=1000,               # maximum chunk size (hard ceiling)
+    overlap_tokens=50,             # overlap between consecutive chunks
+    min_tokens=0,                  # merge chunks below this threshold (0 = disabled)
+    tokenizer=None,                # custom Callable[[str], int] for token counting
+    api_key="",                    # OpenAI API key (for strategy="llm")
+    model="gpt-4o",                # LLM model (for strategy="llm")
+)
+```
+
+Returns `list[str]` — a list of text chunks.
+
+## Async Version
+
+```python
+from distillcore import achunk
+
+chunks = await achunk(text, strategy="paragraph", target_tokens=500)
+```
+
+Only the `llm` strategy is truly async (makes async API calls). Other strategies run synchronously and return immediately.
+
+## Token Estimation
+
+```python
+from distillcore import estimate_tokens
+
+tokens = estimate_tokens("some text")  # len(text) // 4 by default
+```
+
+Pass a custom tokenizer for accurate counts:
+
+```python
+import tiktoken
+enc = tiktoken.encoding_for_model("gpt-4o")
+
+tokens = estimate_tokens("some text", tokenizer=lambda s: len(enc.encode(s)))
+chunks = chunk(text, target_tokens=500, tokenizer=lambda s: len(enc.encode(s)))
+```
+
+## Small Chunk Merging
+
+Set `min_tokens` to merge chunks that are too small into their neighbors:
+
+```python
+chunks = chunk(text, target_tokens=500, min_tokens=100)
+```
+
+Chunks below `min_tokens` are merged into the previous chunk. A trailing small chunk is merged into the second-to-last.
+
+## Pipeline Integration
+
+When using the full pipeline (`process_document` / `process_text`), chunking is controlled via `ChunkConfig`:
+
+```python
+from distillcore import process_document, DistillConfig, ChunkConfig
+
+config = DistillConfig(
+    chunk=ChunkConfig(
+        strategy="auto",       # "auto" uses section/transcript/fallback logic
+        target_tokens=500,
+        overlap_chars=200,
+        max_tokens=1000,
+        min_tokens=50,
+    ),
+)
+result = process_document("report.pdf", config=config)
+```
+
+The `"auto"` strategy (default) uses the pipeline's section-aware chunking:
+- Transcripts with >50% turn coverage → group turns by target size
+- Documents with sections → one chunk per section, split large sections
+- No sections → split full text on paragraph boundaries
+
+Named strategies (`"paragraph"`, `"sentence"`, `"fixed"`, `"llm"`) delegate directly to the standalone `chunk()` API.

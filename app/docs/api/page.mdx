@@ -2,7 +2,17 @@
 
 Complete API reference for the distillcore library.
 
-## Entry Points
+## Standalone Chunking
+
+| Function | Description |
+|----------|-------------|
+| `chunk()` | Split text into chunks using paragraph, sentence, fixed, or LLM strategy |
+| `achunk()` | Async version of chunk() |
+| `estimate_tokens()` | Estimate token count for a string |
+
+See [Chunking](/docs/chunking) for details.
+
+## Pipeline Entry Points
 
 | Function | Description |
 |----------|-------------|
@@ -27,7 +37,7 @@ See [Async & Batch](/docs/async-batch) for details.
 | Class | Description |
 |-------|-------------|
 | `DistillConfig` | Top-level configuration |
-| `ChunkConfig` | Chunk size and overlap |
+| `ChunkConfig` | Chunk size, overlap, and strategy |
 | `EmbeddingConfig` | Embedding model selection |
 | `DomainConfig` | Domain-specific LLM prompts |
 
@@ -38,6 +48,7 @@ See [Configuration](/docs/configuration) for details.
 | Function | Description |
 |----------|-------------|
 | `load_preset(name)` | Load a domain preset |
-| `list_presets()` | List available presets |
 | `register_extractor(ext)` | Register a custom extractor |
 | `compute_coverage(original, derived)` | Word-level coverage metric |
+| `find_missing_segments(original, derived)` | Find text segments lost during processing |
+| `safe_parse(raw)` | Parse JSON with truncation repair fallback |
