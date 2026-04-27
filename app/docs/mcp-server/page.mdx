@@ -1,0 +1,227 @@
+# MCP Server
+
+distillcore ships as a [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server, letting AI assistants like Claude process documents, chunk text, and search your document store directly.
+
+## Installation
+
+```bash
+pip install distillcore[mcp,openai]
+```
+
+For PDF/DOCX/HTML support:
+
+```bash
+pip install distillcore[mcp,all]
+```
+
+## Connecting to Claude Desktop
+
+Add distillcore to your Claude Desktop MCP config at `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+
+```json
+{
+  "mcpServers": {
+    "distillcore": {
+      "command": "distillcore",
+      "env": {
+        "OPENAI_API_KEY": "sk-..."
+      }
+    }
+  }
+}
+```
+
+Restart Claude Desktop. You should see distillcore's 8 tools available in the tools menu.
+
+## Connecting to Claude Code
+
+Add to your Claude Code settings (`.claude/settings.json` or project-level):
+
+```json
+{
+  "mcpServers": {
+    "distillcore": {
+      "command": "distillcore",
+      "env": {
+        "OPENAI_API_KEY": "sk-..."
+      }
+    }
+  }
+}
+```
+
+Or if you installed distillcore in a specific virtual environment:
+
+```json
+{
+  "mcpServers": {
+    "distillcore": {
+      "command": "/path/to/venv/bin/distillcore",
+      "env": {
+        "OPENAI_API_KEY": "sk-..."
+      }
+    }
+  }
+}
+```
+
+## Using with `uv`
+
+If you manage Python tools with `uv`, you can run distillcore without a global install:
+
+```json
+{
+  "mcpServers": {
+    "distillcore": {
+      "command": "uv",
+      "args": ["run", "--with", "distillcore[mcp,all]", "distillcore"],
+      "env": {
+        "OPENAI_API_KEY": "sk-..."
+      }
+    }
+  }
+}
+```
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `OPENAI_API_KEY` | OpenAI API key for LLM stages + embeddings | required for LLM features |
+| `DISTILLCORE_STORE` | Path to SQLite store file | `~/.distillcore/store.db` |
+| `DISTILLCORE_TENANT_ID` | Tenant ID for multi-user isolation | none |
+| `DISTILLCORE_ALLOWED_DIRS` | Colon-separated allowed file paths | unrestricted |
+| `DISTILLCORE_EMBEDDING_MODEL` | Embedding model for search | `text-embedding-3-small` |
+
+### Restricting file access
+
+For security, restrict which directories the server can read:
+
+```json
+{
+  "mcpServers": {
+    "distillcore": {
+      "command": "distillcore",
+      "env": {
+        "OPENAI_API_KEY": "sk-...",
+        "DISTILLCORE_ALLOWED_DIRS": "/Users/me/documents:/tmp/uploads"
+      }
+    }
+  }
+}
+```
+
+Any `distill_file` or `distill_batch` call outside these directories will be rejected.
+
+## Tools
+
+### distill_file
+
+Process a document file through the full 7-stage pipeline.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `file_path` | `string` | required | Path to the document file |
+| `format` | `string` | auto-detect | Format override ("pdf", "txt", etc.) |
+| `domain` | `string` | `"generic"` | Preset name ("generic" or "legal") |
+| `embed` | `boolean` | `true` | Generate embeddings |
+| `chunk_target_tokens` | `integer` | `500` | Target chunk size in tokens |
+| `enrich` | `boolean` | `true` | Run LLM enrichment on chunks |
+| `store` | `boolean` | `false` | Persist result for later search |
+
+### distill_text
+
+Process raw text through the pipeline (skips extraction).
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `text` | `string` | required | Text content to process |
+| `domain` | `string` | `"generic"` | Preset name |
+| `embed` | `boolean` | `true` | Generate embeddings |
+| `chunk_target_tokens` | `integer` | `500` | Target chunk size |
+| `enrich` | `boolean` | `true` | Run LLM enrichment |
+| `store` | `boolean` | `false` | Persist result |
+
+### distill_batch
+
+Process multiple files concurrently.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `file_paths` | `string[]` | required | List of file paths |
+| `domain` | `string` | `"generic"` | Preset name |
+| `embed` | `boolean` | `true` | Generate embeddings |
+| `chunk_target_tokens` | `integer` | `500` | Target chunk size |
+| `enrich` | `boolean` | `true` | Run LLM enrichment |
+| `store` | `boolean` | `false` | Persist results |
+| `max_concurrent` | `integer` | `5` | Max concurrent pipelines |
+
+Failed files don't crash the batch — each gets a result with `passed=false`.
+
+### distill_chunks_only
+
+Chunk text without any LLM calls. No API key needed.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `text` | `string` | required | Text to chunk |
+| `chunk_target_tokens` | `integer` | `500` | Target chunk size |
+| `overlap_tokens` | `integer` | `50` | Token overlap between chunks |
+| `min_tokens` | `integer` | `0` | Merge chunks below this size |
+| `strategy` | `string` | `"paragraph"` | `"paragraph"`, `"sentence"`, or `"fixed"` |
+
+### distill_validate
+
+Check coverage between original text and a set of chunks.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `original_text` | `string` | required | Source text |
+| `chunk_texts` | `string[]` | required | Chunk strings to validate |
+
+Returns coverage score (0–1) and any missing segments.
+
+### distill_search
+
+Semantic search across stored documents using cosine similarity.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `query` | `string` | required | Natural language search query |
+| `top_k` | `integer` | `10` | Number of results |
+| `document_type` | `string` | none | Filter by document type |
+
+Requires documents stored with `store=true` and `embed=true`.
+
+### distill_list_documents
+
+List all documents in the store.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `document_type` | `string` | none | Filter by type |
+| `limit` | `integer` | `50` | Max documents to return |
+
+### distill_get_document
+
+Get full details and chunks for a stored document.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `document_id` | `string` | required | Document UUID |
+
+## Example Workflows
+
+### Process and search documents
+
+1. Use `distill_file` with `store=true` to process and persist documents
+2. Use `distill_search` to find relevant chunks across all stored documents
+3. Use `distill_get_document` to retrieve full context for a specific document
+
+### Quick chunking
+
+Use `distill_chunks_only` when you just need to split text — no API key, no LLM calls, instant results.
+
+### Legal document analysis
+
+Use `distill_file` with `domain="legal"` to extract case numbers, attorneys, court orders, and transcript speaker turns automatically.

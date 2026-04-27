@@ -11,6 +11,7 @@ import {
   Bot,
   Code,
   Scissors,
+  Plug,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -31,6 +32,7 @@ export default {
   storage: <NavItem icon={Database}>Storage</NavItem>,
   'embedding-providers': <NavItem icon={Binary}>Embedding Providers</NavItem>,
   'async-batch': <NavItem icon={Zap}>Async & Batch</NavItem>,
+  'mcp-server': <NavItem icon={Plug}>MCP Server</NavItem>,
   security: <NavItem icon={Shield}>Security</NavItem>,
   agents: <NavItem icon={Bot}>Agents</NavItem>,
   api: <NavItem icon={Code}>API Reference</NavItem>,
