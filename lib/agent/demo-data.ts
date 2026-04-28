@@ -2,7 +2,7 @@
  * Demo pipeline replay data — real FinCEN PPSI Fact Sheet processed by distillcore.
  *
  * Source: https://www.fincen.gov/system/files/2026-04/FactSheet-PPSI-program-NPRM.pdf
- * Processed with: distillcore v0.4.0, generic preset, 300 target tokens
+ * Processed with: distillcore-agents v0.2.0 (distillcore v0.7.0), generic preset, 300 target tokens
  * Result: 14 chunks, 99% structuring, 100% e2e coverage
  */
 
@@ -47,6 +47,8 @@ export const DEMO_RESULT: PipelineResult = {
     preset: 'generic',
     needs_ocr: false,
     target_tokens: 300,
+    chunk_strategy: 'paragraph',
+    min_tokens: 0,
     reasoning: 'Government fact sheet with structured sections covering proposed regulations. No legal case numbers or court filings detected. Generic preset is appropriate.',
   },
   processing: {

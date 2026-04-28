@@ -44,9 +44,20 @@ class QARecommendation(BaseModel):
 ```json
 {
   "issue": "3 empty chunks detected",
-  "action": "increase",
-  "parameter": "target_tokens",
-  "suggested_value": "600"
+  "action": "set",
+  "parameter": "min_tokens",
+  "suggested_value": "50"
+}
+```
+
+Or for larger quality issues:
+
+```json
+{
+  "issue": "Low structuring coverage (0.82)",
+  "action": "change",
+  "parameter": "preset",
+  "suggested_value": "legal"
 }
 ```
 

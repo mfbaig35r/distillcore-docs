@@ -20,6 +20,8 @@ class TriageDecision(BaseModel):
     needs_ocr: bool
     target_tokens: int              # recommended chunk size
     overlap_chars: int
+    chunk_strategy: str             # "auto", "paragraph", "sentence", "fixed", "llm"
+    min_tokens: int                 # merge chunks below this threshold (0 = disabled)
     enable_enrichment: bool
     llm_page_window_size: int
     reasoning: str                  # explanation of choices
@@ -30,7 +32,14 @@ class TriageDecision(BaseModel):
 1. Calls `preview_document` to extract the first page and get format/page count/character stats
 2. Calls `list_available_presets` to see what domain presets are available
 3. Analyzes the preview text to determine document type
-4. Returns a `TriageDecision` with recommended configuration
+4. Selects a chunking strategy based on content structure:
+   - `"paragraph"` for documents with clear paragraph breaks (reports, briefs)
+   - `"sentence"` for dense text without paragraph breaks (OCR output, old PDFs)
+   - `"fixed"` for code, logs, or data where consistent window size matters
+   - `"llm"` for high-value documents where semantic coherence is critical (extra LLM call)
+   - `"auto"` (default) when unsure — lets the pipeline decide
+5. Sets `min_tokens` to merge tiny chunks (e.g., 50 for scanned documents or tables)
+6. Returns a `TriageDecision` with recommended configuration
 
 ## Example Output
 
@@ -43,6 +52,8 @@ class TriageDecision(BaseModel):
   "needs_ocr": false,
   "target_tokens": 500,
   "overlap_chars": 200,
+  "chunk_strategy": "paragraph",
+  "min_tokens": 0,
   "enable_enrichment": true,
   "llm_page_window_size": 15,
   "reasoning": "Document contains case numbers, legal citations, and party names consistent with a legal motion."

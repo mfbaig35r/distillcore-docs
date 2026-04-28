@@ -63,6 +63,8 @@ export interface PipelineResult {
     preset: string;
     needs_ocr: boolean;
     target_tokens: number;
+    chunk_strategy: string;
+    min_tokens: number;
     reasoning: string;
   };
   processing: {

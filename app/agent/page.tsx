@@ -69,7 +69,7 @@ export default function AgentPage() {
                 </pre>
                 <div className="px-4 pb-3">
                   <p className="text-[11px] text-neutral-600">
-                    Requires <span className="text-neutral-500">pip install distillcore-agents</span> and an OpenAI API key.
+                    Requires <span className="text-neutral-500">pip install distillcore-agents[pdf]</span> and an OpenAI API key.
                     The demo above processes this same{' '}
                     <a
                       href="https://www.fincen.gov/system/files/2026-04/FactSheet-PPSI-program-NPRM.pdf"

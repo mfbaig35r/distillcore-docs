@@ -31,7 +31,7 @@ class ProcessingDecision(BaseModel):
 ## How It Works
 
 1. Receives the `TriageDecision` as context
-2. Builds a `DistillConfig` from triage recommendations (preset, chunk size, OCR, etc.)
-3. Calls `process_document` with the configured pipeline
+2. Builds a `DistillConfig` from triage recommendations (preset, chunk size, strategy, min_tokens, OCR, etc.)
+3. Calls `process_document` with the configured pipeline — including `ChunkConfig(strategy=, min_tokens=)` from triage
 4. Calls `save_result` to persist the processed document
 5. Returns coverage metrics and document metadata

@@ -10,7 +10,7 @@ from distillcore_agents import Orchestrator
 orch = Orchestrator(
     model="openai:gpt-4o-mini",            # LLM model for agents
     store_path="~/.distillcore/agents.db",  # agent result persistence
-    doc_store_path=None,                     # document store path
+    doc_store_path="~/.distillcore/store.db",  # document store path
     openai_api_key=None,                     # or OPENAI_API_KEY env var
     tenant_id=None,                          # tenant isolation
     max_concurrency=3,                       # batch concurrency limit
